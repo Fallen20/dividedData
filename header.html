@@ -13,9 +13,9 @@
     <header id="header">
         <nav>
             <ul>
-                <li><a href="/users/user_creation.html">Create Users</a></li>
-                <li><a href="/character/character_creation.html">Create Characters</a></li>
-                <li><a href="/home.html">Home</a></li>
+                <li><a id="create-users" href="/users/user_creation.html">Create Users</a></li>
+                <li><a id="create-chars" href="/character/character_creation.html">Create Characters</a></li>
+                <li><a id="login" href="/home.html">Home</a></li>
                 <!-- Si no hay un usuario autenticado, mostramos el link de login -->
                 <li id="user-link"><a href="./login/login.html">Login</a></li>
             </ul>
@@ -27,33 +27,14 @@
 
 
     <script>
-        
+        import {redirection} from './redirect.js';
+
         window.addEventListener('DOMContentLoaded', (event) => {
             // Verificar si estamos en GitHub Pages
-            const isGitHubPages = window.location.hostname === 'fallen20.github.io';
-
-            const links = document.querySelectorAll('a');
-
-            links.forEach(link => {
-                const href = link.getAttribute('href');
-
-                // Cambiar las rutas según el entorno
-                if (isGitHubPages) {
-                    if (href.startsWith('/users/')) {
-                        // Modificar la ruta de Create Users
-                        link.setAttribute('href', '/dividedData/users/user_creation.html');
-                    } else if (href.startsWith('/character/')) {
-                        // Modificar la ruta de Create Characters
-                        link.setAttribute('href', '/dividedData/character/character_creation.html');
-                    } else if (href === '/home.html') {
-                        // Modificar la ruta de Home
-                        link.setAttribute('href', '/dividedData/home.html');
-                    } else if (href === './login/login.html') {
-                        // Modificar la ruta de Login (si es necesario)
-                        link.setAttribute('href', '/dividedData/login/login.html');
-                    }
-                }
-            });
+            
+            document.getElementById('create-users').href = redirection('users/user_creation.html');
+            document.getElementById('create-chars').href = redirection('character/character_creation.html');
+            document.getElementById('login').href = redirection('home.html');
         });
 
     </script>
