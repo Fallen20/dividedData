@@ -2,21 +2,6 @@ import { getCurrentUser, logout } from './login/login.js';
 import { redirection } from './redirect.js';
 
 document.addEventListener('DOMContentLoaded', () => {
-    //recuperar url de la pagina
-
-    //mirar si existen los elementos primero
-    var users=document.getElementById('create-users');
-    var chars=document.getElementById('create-chars');
-    var login=document.getElementById('login');
-
-    if (users || chars || login) {
-        console.log(redirection('users/user_creation.html'));
-        document.getElementById('create-users').href = redirection('users/user_creation.html');
-        document.getElementById('create-chars').href = redirection('character/character_creation.html');
-        document.getElementById('login').href = redirection('home.html');
-    }
-
-
     fetch(redirection('header.html'))
         .then(response => {
             if (!response.ok) {
@@ -59,4 +44,17 @@ document.addEventListener('DOMContentLoaded', () => {
             userLink.innerHTML = '<a href="' + link + '">Login</a>';
         }
     });
+
+    //mirar si existen los elementos primero
+    var users = document.getElementById('create-users');
+    var chars = document.getElementById('create-chars');
+    var login = document.getElementById('login');
+
+    console.log(redirection('users/user_creation.html'));
+    console.log(users);
+    if (users || chars || login) {
+        document.getElementById('create-users').href = redirection('users/user_creation.html');
+        document.getElementById('create-chars').href = redirection('character/character_creation.html');
+        document.getElementById('login').href = redirection('home.html');
+    }
 });
