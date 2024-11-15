@@ -16,8 +16,13 @@ import { onAuthStateChanged } from "https://www.gstatic.com/firebasejs/9.6.1/fir
 onAuthStateChanged(auth, (user) => {
     if (!user) {
         // Obtener la ruta actual
+        const currentPath = window.location.pathname;
 
-        window.location.href = redirection('login/login.html');
-
+        // Excluir ciertas páginas de la verificación, si es necesario (opcional)
+        const exemptPaths = ["/home.html", "/login/login.html"];
+        if (!exemptPaths.includes(currentPath)) {
+            // Redirigir al login si no está autenticado
+            window.location.href = redirection('login/login.html');
+        }
     }
 });
