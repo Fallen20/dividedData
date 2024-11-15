@@ -21,7 +21,7 @@
     <script type="module">
         import { auth } from "./../inicializarFB.js";
         import { onAuthStateChanged } from "https://www.gstatic.com/firebasejs/9.6.1/firebase-auth.js";
-        import { redirection } from './../redirect.js';
+        import {redirection} from './../redirect.js';
 
         // Verificar el estado de autenticación
         onAuthStateChanged(auth, (user) => {

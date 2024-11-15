@@ -31,7 +31,7 @@ document.addEventListener('DOMContentLoaded', () => {
     getCurrentUser().then(user => {
         const userLink = document.getElementById('user-link');
 
-        if (user) {
+        if (user && userLink) {
             userLink.innerHTML = `Hola, ${user.displayName || user.email} `;
 
             // Crear el enlace para cerrar sesión
