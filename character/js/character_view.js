@@ -93,7 +93,7 @@ async function loadCharacterData() {
             document.getElementById('special-traits').textContent = data.specialTraits || 'No special traits available';
             document.getElementById('extra').textContent = data.extra || 'No extra information available';
             document.getElementById('edit-button').onclick = () => {
-                window.location.href = redirection('character/character_edit.html?affiliation=${characterAff}&id=${characterName}');
+                window.location.href = redirection(`character/character_edit.html?affiliation=${characterAff}&id=${characterName}`);
 
 
                 // window.location.href = `./character_edit.html?affiliation=${characterAff}&id=${characterName}`;
