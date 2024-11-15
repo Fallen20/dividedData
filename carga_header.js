@@ -18,6 +18,7 @@ document.addEventListener('DOMContentLoaded', () => {
 
             headerContent.querySelector('#create-users').href = redirection('users/user_creation.html');
             headerContent.querySelector('#create-chars').href = redirection('character/character_creation.html');
+            headerContent.querySelector('#home').href = redirection('home.html');
             headerContent.querySelector('#login').href = redirection('login/login.html');
 
             if (headerContent) {
@@ -29,7 +30,7 @@ document.addEventListener('DOMContentLoaded', () => {
         .catch(error => console.error("Catch header:", error));
 
     getCurrentUser().then(user => {
-        const userLink = document.getElementById('user-link');
+        const userLink = document.getElementById('login');
 
         if (user && userLink) {
             userLink.innerHTML = `Hola, ${user.displayName || user.email} `;

@@ -10,17 +10,25 @@ export function redirection(url){
 }
 
 
-// import { auth } from "./../inicializarFB.js";
-// import { onAuthStateChanged } from "https://www.gstatic.com/firebasejs/9.6.1/firebase-auth.js";
+import { auth } from "./inicializarFB.js";
+import { onAuthStateChanged } from "https://www.gstatic.com/firebasejs/9.6.1/firebase-auth.js";
 
-// // Verificar el estado de autenticación
-// onAuthStateChanged(auth, (user) => {
-//     if (!user) {
-//         // Redirigir al login si no está autenticado
-//         // Verificar si estamos en GitHub Pages
+onAuthStateChanged(auth, (user) => {
+    if (!user) {
+        // Obtener la ruta actual
+        const currentPath = window.location.pathname;
 
-//         window.location.href = redirection('login/login.html');
-
-//         // window.location.href = "./../login/login.html";
-//     }
-// });
+        const exemptPaths = ["/home.html", "/login/login.html"];
+        console.log(currentPath);
+        if(currentPath.includes('home.html')){
+            console.log('a');
+        }
+        else{
+            console.log('b');
+        }
+        if (!exemptPaths.includes(currentPath)) {
+            // Redirigir al login si no está autenticado
+            // window.location.href = redirection('login/login.html');
+        }
+    }
+});
