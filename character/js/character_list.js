@@ -123,8 +123,19 @@ async function displayCharacters() {
 
                 // Aquí puedes agregar un click event si deseas redirigir a una página de detalle del personaje
                 listItem.addEventListener('click', () => {
-                    window.location.href = `/character/character_view.html?affiliation=${characterData.affiliation}&id=${doc.id}`;
-                    // window.location.href = `/character/character_view.html?id=${doc.id}`;
+                    // Verifica si estamos en GitHub Pages
+                    const isGitHubPages = window.location.host.includes('github.io');
+
+                    let redirectUrl = `/character/character_view.html?affiliation=${characterData.affiliation}&id=${doc.id}`;
+
+                    // Si estamos en GitHub Pages, ajusta la URL para que apunte a la ruta correcta
+                    if (isGitHubPages) {
+                        redirectUrl = `/dividedData/character/character_view.html?affiliation=${characterData.affiliation}&id=${doc.id}`;
+                    }
+
+                    window.location.href = redirectUrl;  // Realiza la redirección
+
+                    // window.location.href = `/character/character_view.html?affiliation=${characterData.affiliation}&id=${doc.id}`;
                 });
 
                 listElement.appendChild(listItem);
@@ -215,7 +226,19 @@ function renderCharacters(characters) {
             characterItem.addEventListener('click', () => {
                 // console.log(character);
 
-                window.location.href = `/character/character_view.html?affiliation=${character.affiliation}&id=${character.id}`;
+                // Verifica si estamos en GitHub Pages
+                const isGitHubPages = window.location.host.includes('github.io');
+
+                let redirectUrl = `/character/character_view.html?affiliation=${characterData.affiliation}&id=${doc.id}`;
+
+                // Si estamos en GitHub Pages, ajusta la URL para que apunte a la ruta correcta
+                if (isGitHubPages) {
+                    redirectUrl = `/dividedData/character/character_view.html?affiliation=${characterData.affiliation}&id=${doc.id}`;
+                }
+
+                window.location.href = redirectUrl;  // Realiza la redirección
+
+                // window.location.href = `/character/character_view.html?affiliation=${character.affiliation}&id=${character.id}`;
                 // window.location.href = `/character/character_view.html?id=${character.id}`;
             });
 

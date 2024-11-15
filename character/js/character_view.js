@@ -11,20 +11,30 @@ document.addEventListener("DOMContentLoaded", () => {
         console.error("Delete button not found in the DOM.");
         return;
     }
-    
+
     deleteButton.addEventListener('click', async () => {
-         // Verificar el estado de autenticación
-         onAuthStateChanged(auth, (user) => {
+        // Verificar el estado de autenticación
+        onAuthStateChanged(auth, (user) => {
             if (!user) {
                 // Redirigir al login si no está autenticado
-                window.location.href = "/login/login.html";
+                const isGitHubPages = window.location.hostname === 'fallen20.github.io';
+
+                // Cambiar la redirección de acuerdo con el entorno
+                if (isGitHubPages) {
+                    // Si estamos en GitHub Pages, usamos la ruta absoluta
+                    window.location.href = "/dividedData/login/login.html";
+                } else {
+                    // Si estamos en local o en un entorno de desarrollo, usamos la ruta relativa
+                    window.location.href = "/login/login.html";
+                }
+                // window.location.href = "/login/login.html";
             }
         });
 
         document.getElementById('delete-button').disabled = true;
         document.getElementById('edit-button').disabled = true;
 
-        
+
         // console.log("Borrando personaje...");
         try {
             // Recuperar los parámetros de la URL
@@ -48,7 +58,17 @@ document.addEventListener("DOMContentLoaded", () => {
             console.log("Character deleted successfully.");
 
             // Redirigir al listado de personajes o alguna otra vista
-            window.location.href = `/home.html`;
+            const isGitHubPages = window.location.hostname === 'fallen20.github.io';
+
+            // Cambiar la redirección de acuerdo con el entorno
+            if (isGitHubPages) {
+                // Si estamos en GitHub Pages, usamos la ruta absoluta
+                window.location.href = "/dividedData/home.html";
+            } else {
+                // Si estamos en local o en un entorno de desarrollo, usamos la ruta relativa
+                window.location.href = "/home.html";
+            }
+            // window.location.href = `/home.html`;
         } catch (error) {
             console.error("Error deleting character:", error);
             alert("Failed to delete the character. Please try again.");
@@ -71,7 +91,7 @@ async function loadCharacterData() {
         const characterRef = doc(db, characterAff, characterName); // Suponiendo que los personajes están en la colección 'neutral'
         const docSnap = await getDoc(characterRef);
 
-        const user=await recoverUserWithId(docSnap.data().owner);
+        const user = await recoverUserWithId(docSnap.data().owner);
         // console.log("User data:", user);
         if (docSnap.exists()) {
             const data = docSnap.data();
@@ -91,7 +111,7 @@ async function loadCharacterData() {
             document.getElementById('edit-button').onclick = () => {
                 window.location.href = `./character_edit.html?affiliation=${characterAff}&id=${characterName}`;
             };
-            
+
             // Llenar la lista de movimientos
             const movesList = document.getElementById('moves-list');
             data.moves.forEach(move => {

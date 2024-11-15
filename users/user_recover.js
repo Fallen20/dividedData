@@ -62,7 +62,18 @@ async function fetchAndRenderUsers() {
             userItem.addEventListener('click', async () => {
                 //   const idUser= await recoverUserWithId(user.id);
                 // Redirigir al usuario a la vista del usuario
-                window.location.href = `/users/user_view.html?id=${user.id}`;  // Pasar el ID del documento
+                const isGitHubPages = window.location.hostname === 'fallen20.github.io';
+
+                // Cambiar la redirección de acuerdo con el entorno
+                if (isGitHubPages) {
+                    // Si estamos en GitHub Pages, usamos la ruta absoluta
+                    window.location.href = `/dividedData/users/user_view.html?id=${user.id}`;
+                } else {
+                    // Si estamos en local o en un entorno de desarrollo, usamos la ruta relativa
+                    window.location.href = `/users/user_view.html?id=${user.id}`;
+                }
+
+                // window.location.href = `/users/user_view.html?id=${user.id}`;  // Pasar el ID del documento
             });
 
             container.appendChild(userItem);

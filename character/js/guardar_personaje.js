@@ -16,24 +16,24 @@ document.addEventListener("DOMContentLoaded", () => {
         fillInformationForm(); // Llenar el formulario con la información del personaje si es formulario "update"
         formUpdate.addEventListener("submit", async (event) => {
             event.preventDefault();
-        
+
             if (!formUpdate.checkValidity()) {
                 alert("Please fill out all required fields");
                 return;
             }
-        
+
             // Recuperar de params
             const urlParams = new URLSearchParams(window.location.search);
             const characterId = urlParams.get('id');
             const characterAffiliation = urlParams.get('affiliation');
-        
+
             console.log("Character ID:", characterId, "Affiliation:", characterAffiliation);
-        
+
             if (!characterId || !characterAffiliation) {
                 console.error("Character ID or affiliation is missing.");
                 return;
             }
-        
+
             const characterData = {
                 name: document.getElementById("name").value.trim(),
                 gender: document.getElementById("gender").value.trim(),
@@ -53,7 +53,7 @@ document.addEventListener("DOMContentLoaded", () => {
                 extra: document.getElementById("extra").value.trim(),
                 owner: document.getElementById("owner_hidden").value.trim(),
             };
-        
+
             // Verificar si la afiliación ha cambiado
             if (characterAffiliation !== characterData.affiliation) {
                 // Si la afiliación ha cambiado, borrar el antiguo documento
@@ -64,27 +64,38 @@ document.addEventListener("DOMContentLoaded", () => {
                     console.error("Error al borrar el personaje:", error);
                     return;  // Detener el proceso si el borrado falla
                 }
-        
+
                 // Crear el documento en la nueva colección
                 const collectionRef = collection(db, characterData.affiliation);
                 const nameQuery = query(collectionRef, where("name", "==", characterData.name));
                 const querySnapshot = await getDocs(nameQuery);
-        
+
                 // Verificar si ya existe un personaje con ese nombre en la nueva colección
                 if (!querySnapshot.empty) {
                     // Si existe, modificar el nombre del personaje para evitar duplicados
                     characterData.name = `${characterData.name}-${Date.now()}`;
                 }
-        
+
                 try {
                     const docRef = await addDoc(collectionRef, characterData);
                     console.log("Personaje guardado con éxito en la colección:", characterData.affiliation);
                     // Redirigir al personaje recién creado
-                    window.location.href = `/character/character_view.html?affiliation=${characterData.affiliation}&id=${docRef.id}`;
+                    // Verifica si estamos en GitHub Pages
+                    const isGitHubPages = window.location.host.includes('github.io');
+
+                    let redirectUrl = `/character/character_view.html?affiliation=${characterData.affiliation}&id=${doc.id}`;
+
+                    // Si estamos en GitHub Pages, ajusta la URL para que apunte a la ruta correcta
+                    if (isGitHubPages) {
+                        redirectUrl = `/dividedData/character/character_view.html?affiliation=${characterData.affiliation}&id=${doc.id}`;
+                    }
+
+                    window.location.href = redirectUrl;  // Realiza la redirección
+                    // window.location.href = `/character/character_view.html?affiliation=${characterData.affiliation}&id=${docRef.id}`;
                 } catch (error) {
                     console.error("Error al guardar el personaje:", error);
                 }
-        
+
             } else {
                 // Si la afiliación no ha cambiado, solo actualizar el documento
                 try {
@@ -92,13 +103,24 @@ document.addEventListener("DOMContentLoaded", () => {
                     await updateDoc(characterRef, characterData);
                     console.log("Personaje actualizado con éxito en la colección:", characterAffiliation);
                     // Redirigir al personaje actualizado
-                    window.location.href = `/character/character_view.html?affiliation=${characterAffiliation}&id=${characterId}`;
+                    // Verifica si estamos en GitHub Pages
+                    const isGitHubPages = window.location.host.includes('github.io');
+
+                    let redirectUrl = `/character/character_view.html?affiliation=${characterData.affiliation}&id=${doc.id}`;
+
+                    // Si estamos en GitHub Pages, ajusta la URL para que apunte a la ruta correcta
+                    if (isGitHubPages) {
+                        redirectUrl = `/dividedData/character/character_view.html?affiliation=${characterData.affiliation}&id=${doc.id}`;
+                    }
+
+                    window.location.href = redirectUrl;  // Realiza la redirección
+                    // window.location.href = `/character/character_view.html?affiliation=${characterAffiliation}&id=${characterId}`;
                 } catch (error) {
                     console.error("Error al actualizar el personaje:", error);
                 }
             }
         });
-        
+
 
     }
 
@@ -131,7 +153,7 @@ document.addEventListener("DOMContentLoaded", () => {
                 owner: document.getElementById("owner_hidden").value.trim(),
             };
 
-            
+
             try {
                 const collectionRef = collection(db, characterData.affiliation); // Crear referencia a la colección
                 const nameQuery = query(collectionRef, where("name", "==", characterData.name));
@@ -145,7 +167,18 @@ document.addEventListener("DOMContentLoaded", () => {
                 console.log("Personaje guardado con éxito en la colección:", characterData.affiliation);
 
                 // Redirigir al personaje
-                window.location.href = `/character/character_view.html?affiliation=${characterData.affiliation}&id=${docRef.id}`;
+                // Verifica si estamos en GitHub Pages
+                const isGitHubPages = window.location.host.includes('github.io');
+
+                let redirectUrl = `/character/character_view.html?affiliation=${characterData.affiliation}&id=${doc.id}`;
+
+                // Si estamos en GitHub Pages, ajusta la URL para que apunte a la ruta correcta
+                if (isGitHubPages) {
+                    redirectUrl = `/dividedData/character/character_view.html?affiliation=${characterData.affiliation}&id=${doc.id}`;
+                }
+
+                window.location.href = redirectUrl;  // Realiza la redirección
+                // window.location.href = `/character/character_view.html?affiliation=${characterData.affiliation}&id=${docRef.id}`;
             } catch (error) {
                 console.error("Error al guardar el personaje:", error);
             }
@@ -192,7 +225,7 @@ async function fillInformationForm() {
 
     const data = await getCharacterData(); // Esperar a obtener los datos del personaje
 
-    const user=await recoverUserWithId(data.owner);
+    const user = await recoverUserWithId(data.owner);
     if (data) {
         // Llenar los elementos del formulario con los datos obtenidos
         document.getElementById("name").value = data.name || '';

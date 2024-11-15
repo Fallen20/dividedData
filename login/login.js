@@ -1,11 +1,11 @@
 // Importar los módulos de Firebase necesarios
 import { app, db, auth } from "./../inicializarFB.js";
-import { 
-    signInWithEmailAndPassword, 
-    setPersistence, 
-    browserLocalPersistence, 
+import {
+    signInWithEmailAndPassword,
+    setPersistence,
+    browserLocalPersistence,
     onAuthStateChanged,
-    signOut 
+    signOut
 } from "https://www.gstatic.com/firebasejs/9.6.1/firebase-auth.js";
 
 // Configurar persistencia para mantener al usuario autenticado
@@ -33,7 +33,19 @@ async function logIn(email, password) {
         const user = userCredential.user;
         // console.log("Usuario autenticado:", user);
         // Redirigir a crear.html después del login exitoso
-        window.location.href = "./../character/character_creation.html";
+        // Verifica si estamos en GitHub Pages
+        const isGitHubPages = window.location.host.includes('github.io');
+
+        let redirectUrl = `/character/character_creation.html`;
+
+        // Si estamos en GitHub Pages, ajusta la URL para que apunte a la ruta correcta
+        if (isGitHubPages) {
+            redirectUrl = `/dividedData/character/character_creation.html`;
+        }
+
+        window.location.href = redirectUrl;  // Realiza la redirección
+
+        // window.location.href = "./../character/character_creation.html";
     } catch (error) {
         console.log("Error al iniciar sesión:", error.code, error.message);
     }
@@ -44,7 +56,18 @@ export function logout() {
     return signOut(auth)
         .then(() => {
             console.log("Usuario ha cerrado sesión");
-            window.location.href = "login.html";
+            const isGitHubPages = window.location.hostname === 'fallen20.github.io';
+
+            // Cambiar la redirección de acuerdo con el entorno
+            if (isGitHubPages) {
+                // Si estamos en GitHub Pages, usamos la ruta absoluta
+                window.location.href = "/dividedData/login/login.html";
+            } else {
+                // Si estamos en local o en un entorno de desarrollo, usamos la ruta relativa
+                window.location.href = "/login/login.html";
+            }
+
+            // window.location.href = "login.html";
         })
         .catch((error) => {
             console.error("Error al cerrar sesión:", error);

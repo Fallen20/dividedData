@@ -17,7 +17,7 @@
                 <li><a href="/character/character_creation.html">Create Characters</a></li>
                 <li><a href="/home.html">Home</a></li>
                 <!-- Si no hay un usuario autenticado, mostramos el link de login -->
-                <li id="user-link"><a href="./login/login.html">Login</a></li> <!-- Este será dinámico -->
+                <li id="user-link"><a href="./login/login.html">Login</a></li>
             </ul>
         </nav>
     </header>
@@ -25,7 +25,37 @@
     <!-- Este script carga login.js como módulo -->
     <script src="carga_header.js"></script>
 
-    
+
+    <script>
+        window.addEventListener('DOMContentLoaded', (event) => {
+            // Verificar si estamos en GitHub Pages
+            const isGitHubPages = window.location.hostname === 'fallen20.github.io';
+
+            const links = document.querySelectorAll('a');
+
+            links.forEach(link => {
+                const href = link.getAttribute('href');
+
+                // Cambiar las rutas según el entorno
+                if (isGitHubPages) {
+                    if (href.startsWith('/users/')) {
+                        // Modificar la ruta de Create Users
+                        link.setAttribute('href', '/dividedData/users/user_creation.html');
+                    } else if (href.startsWith('/character/')) {
+                        // Modificar la ruta de Create Characters
+                        link.setAttribute('href', '/dividedData/character/character_creation.html');
+                    } else if (href === '/home.html') {
+                        // Modificar la ruta de Home
+                        link.setAttribute('href', '/dividedData/home.html');
+                    } else if (href === './login/login.html') {
+                        // Modificar la ruta de Login (si es necesario)
+                        link.setAttribute('href', '/dividedData/login/login.html');
+                    }
+                }
+            });
+        });
+
+    </script>
 
 </body>
 
