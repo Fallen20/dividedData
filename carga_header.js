@@ -1,9 +1,9 @@
 import { getCurrentUser, logout } from './login/login.js';
-// document.addEventListener('DOMContentLoaded', () => {
+document.addEventListener('DOMContentLoaded', () => {
     fetch('/header.html')
         .then(response => {
             if (!response.ok) {
-            console.log("Error al cargar el header");
+                console.log("Error al cargar el header");
                 throw new Error("No se pudo cargar el header");
             }
             return response.text();
@@ -23,10 +23,10 @@ import { getCurrentUser, logout } from './login/login.js';
 
     getCurrentUser().then(user => {
         const userLink = document.getElementById('user-link');
-        
+
         if (user) {
             userLink.innerHTML = `Hola, ${user.displayName || user.email} `;
-            
+
             // Crear el enlace para cerrar sesión
             const logoutLink = document.createElement('a');
             logoutLink.href = "#";
@@ -41,4 +41,4 @@ import { getCurrentUser, logout } from './login/login.js';
             userLink.innerHTML = '<a href="./login/login.html">Login</a>';
         }
     });
-// });
+});
