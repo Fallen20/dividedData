@@ -1,6 +1,6 @@
 import { getCurrentUser, logout } from './login/login.js';
 document.addEventListener('DOMContentLoaded', () => {
-    fetch('/header.html')
+    fetch('header.html')
         .then(response => {
             if (!response.ok) {
                 console.log("Error al cargar el header");
