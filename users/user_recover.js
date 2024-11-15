@@ -1,7 +1,7 @@
 // Importar módulos necesarios de Firebase Firestore
 import { db } from "../inicializarFB.js";
 import { collection, getDocs, query, orderBy, getDoc, doc } from "https://www.gstatic.com/firebasejs/10.9.0/firebase-firestore.js";
-import {redirection} from '/redirect.js';
+import {redirection} from './../redirect.js';
 
 // Función para recuperar todos los usuarios
 export async function getAllUsers() {

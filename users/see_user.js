@@ -2,7 +2,7 @@ import { collection, query, where, getDocs } from 'https://www.gstatic.com/fireb
 import { recoverUserWithId } from "./user_recover.js";
 
 import { db } from "./../inicializarFB.js"; // Asegúrate de importar correctamente tu inicialización de Firebase
-import { redirection } from '/redirect.js';
+import { redirection } from './../redirect.js';
 
 //recuperar param id
 const urlParams = new URLSearchParams(window.location.search);
