@@ -80,17 +80,8 @@ document.addEventListener("DOMContentLoaded", () => {
                     const docRef = await addDoc(collectionRef, characterData);
                     console.log("Personaje guardado con éxito en la colección:", characterData.affiliation);
                     // Redirigir al personaje recién creado
-                    // Verifica si estamos en GitHub Pages
-                    const isGitHubPages = window.location.host.includes('github.io');
+                    window.location.href = redirection(`character/character_view.html?affiliation=${characterData.affiliation}&id=${doc.id}`);
 
-                    let redirectUrl = `/character/character_view.html?affiliation=${characterData.affiliation}&id=${doc.id}`;
-
-                    // Si estamos en GitHub Pages, ajusta la URL para que apunte a la ruta correcta
-                    if (isGitHubPages) {
-                        redirectUrl = `/dividedData/character/character_view.html?affiliation=${characterData.affiliation}&id=${doc.id}`;
-                    }
-
-                    window.location.href = redirectUrl;  // Realiza la redirección
                     // window.location.href = `/character/character_view.html?affiliation=${characterData.affiliation}&id=${docRef.id}`;
                 } catch (error) {
                     console.error("Error al guardar el personaje:", error);
@@ -103,17 +94,8 @@ document.addEventListener("DOMContentLoaded", () => {
                     await updateDoc(characterRef, characterData);
                     console.log("Personaje actualizado con éxito en la colección:", characterAffiliation);
                     // Redirigir al personaje actualizado
-                    // Verifica si estamos en GitHub Pages
-                    const isGitHubPages = window.location.host.includes('github.io');
+                    window.location.href = redirection(`character/character_view.html?affiliation=${characterData.affiliation}&id=${doc.id}`);
 
-                    let redirectUrl = `/character/character_view.html?affiliation=${characterData.affiliation}&id=${doc.id}`;
-
-                    // Si estamos en GitHub Pages, ajusta la URL para que apunte a la ruta correcta
-                    if (isGitHubPages) {
-                        redirectUrl = `/dividedData/character/character_view.html?affiliation=${characterData.affiliation}&id=${doc.id}`;
-                    }
-
-                    window.location.href = redirectUrl;  // Realiza la redirección
                     // window.location.href = `/character/character_view.html?affiliation=${characterAffiliation}&id=${characterId}`;
                 } catch (error) {
                     console.error("Error al actualizar el personaje:", error);
@@ -167,17 +149,8 @@ document.addEventListener("DOMContentLoaded", () => {
                 console.log("Personaje guardado con éxito en la colección:", characterData.affiliation);
 
                 // Redirigir al personaje
-                // Verifica si estamos en GitHub Pages
-                const isGitHubPages = window.location.host.includes('github.io');
+                window.location.href = redirection(`character/character_view.html?affiliation=${characterData.affiliation}&id=${doc.id}`);
 
-                let redirectUrl = `/character/character_view.html?affiliation=${characterData.affiliation}&id=${doc.id}`;
-
-                // Si estamos en GitHub Pages, ajusta la URL para que apunte a la ruta correcta
-                if (isGitHubPages) {
-                    redirectUrl = `/dividedData/character/character_view.html?affiliation=${characterData.affiliation}&id=${doc.id}`;
-                }
-
-                window.location.href = redirectUrl;  // Realiza la redirección
                 // window.location.href = `/character/character_view.html?affiliation=${characterData.affiliation}&id=${docRef.id}`;
             } catch (error) {
                 console.error("Error al guardar el personaje:", error);

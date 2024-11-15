@@ -33,17 +33,7 @@ async function logIn(email, password) {
         const user = userCredential.user;
         // console.log("Usuario autenticado:", user);
         // Redirigir a crear.html después del login exitoso
-        // Verifica si estamos en GitHub Pages
-        const isGitHubPages = window.location.host.includes('github.io');
-
-        let redirectUrl = `/character/character_creation.html`;
-
-        // Si estamos en GitHub Pages, ajusta la URL para que apunte a la ruta correcta
-        if (isGitHubPages) {
-            redirectUrl = `/dividedData/character/character_creation.html`;
-        }
-
-        window.location.href = redirectUrl;  // Realiza la redirección
+        window.location.href = redirection(`character/character_creation.html`);      
 
         // window.location.href = "./../character/character_creation.html";
     } catch (error) {
@@ -56,16 +46,8 @@ export function logout() {
     return signOut(auth)
         .then(() => {
             console.log("Usuario ha cerrado sesión");
-            const isGitHubPages = window.location.hostname === 'fallen20.github.io';
+            window.location.href = redirection('login/login.html');
 
-            // Cambiar la redirección de acuerdo con el entorno
-            if (isGitHubPages) {
-                // Si estamos en GitHub Pages, usamos la ruta absoluta
-                window.location.href = "/dividedData/login/login.html";
-            } else {
-                // Si estamos en local o en un entorno de desarrollo, usamos la ruta relativa
-                window.location.href = "/login/login.html";
-            }
 
             // window.location.href = "login.html";
         })

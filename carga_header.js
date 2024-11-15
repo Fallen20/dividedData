@@ -1,11 +1,8 @@
 import { getCurrentUser, logout } from './login/login.js';
+import {redirection} from '/redirect.js';
 
 document.addEventListener('DOMContentLoaded', () => {
     //recuperar url de la pagina
-    var fetchURL="header.html";
-    if (window.location.href.includes('github')) {
-        fetchURL = "/dividedData/header.html";
-    } 
 
     // const isGitHubPages = window.location.hostname === 'fallen20.github.io';
     // var fetchURL="header.html";
@@ -15,7 +12,7 @@ document.addEventListener('DOMContentLoaded', () => {
     //     fetchURL = "/dividedData/header.html";
     // } 
 
-    fetch(fetchURL)
+    fetch(redirection('header.html'))
         .then(response => {
             if (!response.ok) {
                 console.log("Error al cargar el header");

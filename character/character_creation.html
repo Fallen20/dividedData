@@ -21,22 +21,16 @@
     <script type="module">
         import { auth } from "./../inicializarFB.js";
         import { onAuthStateChanged } from "https://www.gstatic.com/firebasejs/9.6.1/firebase-auth.js";
+        import { redirection } from '/redirect.js';
 
         // Verificar el estado de autenticación
         onAuthStateChanged(auth, (user) => {
             if (!user) {
                 // Redirigir al login si no está autenticado
                 // Verificar si estamos en GitHub Pages
-                const isGitHubPages = window.location.hostname === 'fallen20.github.io';
 
-                // Cambiar la redirección de acuerdo con el entorno
-                if (isGitHubPages) {
-                    // Si estamos en GitHub Pages, usamos la ruta absoluta
-                    window.location.href = "/dividedData/login/login.html";
-                } else {
-                    // Si estamos en local o en un entorno de desarrollo, usamos la ruta relativa
-                    window.location.href = "./../login/login.html";
-                }
+                window.location.href = redirection('login/login.html');
+
                 // window.location.href = "./../login/login.html";
             }
         });

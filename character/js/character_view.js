@@ -17,16 +17,8 @@ document.addEventListener("DOMContentLoaded", () => {
         onAuthStateChanged(auth, (user) => {
             if (!user) {
                 // Redirigir al login si no está autenticado
-                const isGitHubPages = window.location.hostname === 'fallen20.github.io';
+                window.location.href = redirection('login/login.html');
 
-                // Cambiar la redirección de acuerdo con el entorno
-                if (isGitHubPages) {
-                    // Si estamos en GitHub Pages, usamos la ruta absoluta
-                    window.location.href = "/dividedData/login/login.html";
-                } else {
-                    // Si estamos en local o en un entorno de desarrollo, usamos la ruta relativa
-                    window.location.href = "/login/login.html";
-                }
                 // window.location.href = "/login/login.html";
             }
         });
@@ -57,17 +49,8 @@ document.addEventListener("DOMContentLoaded", () => {
             await deleteDoc(characterRef);
             console.log("Character deleted successfully.");
 
-            // Redirigir al listado de personajes o alguna otra vista
-            const isGitHubPages = window.location.hostname === 'fallen20.github.io';
+            window.location.href = redirection('home.html');
 
-            // Cambiar la redirección de acuerdo con el entorno
-            if (isGitHubPages) {
-                // Si estamos en GitHub Pages, usamos la ruta absoluta
-                window.location.href = "/dividedData/home.html";
-            } else {
-                // Si estamos en local o en un entorno de desarrollo, usamos la ruta relativa
-                window.location.href = "/home.html";
-            }
             // window.location.href = `/home.html`;
         } catch (error) {
             console.error("Error deleting character:", error);
@@ -109,7 +92,10 @@ async function loadCharacterData() {
             document.getElementById('special-traits').textContent = data.specialTraits || 'No special traits available';
             document.getElementById('extra').textContent = data.extra || 'No extra information available';
             document.getElementById('edit-button').onclick = () => {
-                window.location.href = `./character_edit.html?affiliation=${characterAff}&id=${characterName}`;
+                window.location.href = redirection('character/character_edit.html?affiliation=${characterAff}&id=${characterName}');
+
+
+                // window.location.href = `./character_edit.html?affiliation=${characterAff}&id=${characterName}`;
             };
 
             // Llenar la lista de movimientos
