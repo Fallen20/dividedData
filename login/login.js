@@ -7,7 +7,7 @@ import {
     onAuthStateChanged,
     signOut
 } from "https://www.gstatic.com/firebasejs/9.6.1/firebase-auth.js";
-import {redirection} from '/redirect.js';
+import {redirection} from './../redirect.js';
 
 // Configurar persistencia para mantener al usuario autenticado
 setPersistence(auth, browserLocalPersistence)
