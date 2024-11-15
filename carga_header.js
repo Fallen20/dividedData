@@ -15,10 +15,10 @@ document.addEventListener('DOMContentLoaded', () => {
             const doc = parser.parseFromString(data, 'text/html');
             const headerContent = doc.querySelector('#header');
 
-            
+
             headerContent.querySelector('#create-users').href = redirection('users/user_creation.html');
             headerContent.querySelector('#create-chars').href = redirection('character/character_creation.html');
-        headerContent.querySelector('#login').href = redirection('home.html');
+            headerContent.querySelector('#login').href = redirection('login/login.html');
 
             if (headerContent) {
                 document.getElementById('header-container').appendChild(headerContent);
