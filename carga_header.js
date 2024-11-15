@@ -1,6 +1,21 @@
 import { getCurrentUser, logout } from './login/login.js';
+
 document.addEventListener('DOMContentLoaded', () => {
-    fetch('header.html')
+    //recuperar url de la pagina
+    var fetchURL="header.html";
+    if (window.location.href.includes('github')) {
+        fetchURL = "/dividedData/header.html";
+    } 
+
+    // const isGitHubPages = window.location.hostname === 'fallen20.github.io';
+    // var fetchURL="header.html";
+    // // Cambiar la redirección de acuerdo con el entorno
+    // if (isGitHubPages) {
+    //     // Si estamos en GitHub Pages, usamos la ruta absoluta
+    //     fetchURL = "/dividedData/header.html";
+    // } 
+
+    fetch(fetchURL)
         .then(response => {
             if (!response.ok) {
                 console.log("Error al cargar el header");
