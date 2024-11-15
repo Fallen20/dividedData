@@ -1,5 +1,5 @@
 import { getCurrentUser, logout } from './login/login.js';
-import {redirection} from '/redirect.js';
+import {redirection} from './redirect.js';
 
 document.addEventListener('DOMContentLoaded', () => {
     //recuperar url de la pagina
