@@ -1,17 +1,15 @@
 import { getCurrentUser, logout } from './login/login.js';
-import {redirection} from './redirect.js';
+import { redirection } from './redirect.js';
 
 document.addEventListener('DOMContentLoaded', () => {
     //recuperar url de la pagina
 
-    // const isGitHubPages = window.location.hostname === 'fallen20.github.io';
-    // var fetchURL="header.html";
-    // // Cambiar la redirección de acuerdo con el entorno
-    // if (isGitHubPages) {
-    //     // Si estamos en GitHub Pages, usamos la ruta absoluta
-    //     fetchURL = "/dividedData/header.html";
-    // } 
+    console.log(redirection('users/user_creation.html'));
+    document.getElementById('create-users').href = redirection('users/user_creation.html');
+    document.getElementById('create-chars').href = redirection('character/character_creation.html');
+    document.getElementById('login').href = redirection('home.html');
 
+    
     fetch(redirection('header.html'))
         .then(response => {
             if (!response.ok) {
@@ -50,7 +48,7 @@ document.addEventListener('DOMContentLoaded', () => {
             });
             userLink.appendChild(logoutLink);
         } else {
-            var link=redirection('login/login.html');
+            var link = redirection('login/login.html');
             userLink.innerHTML = '<a href="' + link + '">Login</a>';
         }
     });

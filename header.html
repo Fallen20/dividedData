@@ -23,21 +23,7 @@
     </header>
 
     <!-- Este script carga login.js como módulo -->
-    <script src="carga_header.js"></script>
-
-
-    <script>
-        import {redirection} from './redirect.js';
-
-        window.addEventListener('DOMContentLoaded', (event) => {
-            // Verificar si estamos en GitHub Pages
-            console.log(redirection('users/user_creation.html'));
-            document.getElementById('create-users').href = redirection('users/user_creation.html');
-            document.getElementById('create-chars').href = redirection('character/character_creation.html');
-            document.getElementById('login').href = redirection('home.html');
-        });
-
-    </script>
+    <script type="module" src="carga_header.js"></script>
 
 </body>
 
