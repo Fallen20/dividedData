@@ -1,7 +1,10 @@
 export function redirection(url){
     // var returnURL=url;
     if (window.location.href.includes('github')) {
-        returnURL = "/dividedData/"+url;
+        url = "/dividedData/"+url;
+    }
+    else{
+        url = "/"+url;
     }
     return url;
 }
