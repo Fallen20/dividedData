@@ -2,6 +2,7 @@ import { collection, query, where, getDocs } from 'https://www.gstatic.com/fireb
 import { recoverUserWithId } from "./user_recover.js";
 
 import { db } from "./../inicializarFB.js"; // Asegúrate de importar correctamente tu inicialización de Firebase
+import { redirection } from '/redirect.js';
 
 //recuperar param id
 const urlParams = new URLSearchParams(window.location.search);
@@ -65,8 +66,9 @@ async function fillCharacters(characters) {
         const characterCard = document.createElement('div');
         characterCard.classList.add('card', 'p-1', 'me-2', 'text-center', 'align-items-center');
         characterCard.style.width = '18rem';  // Establecer el ancho de la tarjeta
+        var link = redirection(`character/character_view.html?affiliation=${character.affiliation}&id=${character.id}`);
         characterCard.innerHTML = `
-        <a href="./../character/character_view.html?affiliation=${character.affiliation}&id=${character.id}">
+        <a href="${link}">
     <img class="img-fluid" src="https://f2.toyhou.se/file/f2-toyhou-se/images/79782662_FN0Q9Jy8nqm6Fdg.png" alt="${character.name}" style="max-width: 100px;">
     </a>
     <div class="card-body">

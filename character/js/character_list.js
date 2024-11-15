@@ -51,6 +51,7 @@
 import { db } from '../../inicializarFB.js'; // Asegúrate de tener la configuración inicializada en 'inicializarFB.js'
 import { collection, getDocs, query, orderBy } from 'https://www.gstatic.com/firebasejs/10.9.0/firebase-firestore.js';
 
+import {redirection} from '/redirect.js';
 
 
 document.getElementById('filter-affiliation').addEventListener('click', () => {

@@ -4,6 +4,7 @@ import { addDoc, collection, query, where, getDocs, getDoc, doc, updateDoc, dele
 
 import { recoverData } from "./pokemon_fetch.js";
 import { recoverUserWithId } from "./../../users/user_recover.js";
+import {redirection} from '/redirect.js';
 
 document.addEventListener("DOMContentLoaded", () => {
     const formUpdate = document.getElementById("update");

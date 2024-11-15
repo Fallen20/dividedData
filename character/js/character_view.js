@@ -4,6 +4,7 @@ import { doc, getDoc, deleteDoc } from 'https://www.gstatic.com/firebasejs/10.9.
 import { onAuthStateChanged } from "https://www.gstatic.com/firebasejs/9.6.1/firebase-auth.js";
 
 import { recoverUserWithId } from "./../../users/user_recover.js";
+import {redirection} from '/redirect.js';
 
 document.addEventListener("DOMContentLoaded", () => {
     const deleteButton = document.getElementById('delete-button');

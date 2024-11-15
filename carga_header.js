@@ -50,7 +50,8 @@ document.addEventListener('DOMContentLoaded', () => {
             });
             userLink.appendChild(logoutLink);
         } else {
-            userLink.innerHTML = '<a href="./login/login.html">Login</a>';
+            var link=redirection('login/login.html');
+            userLink.innerHTML = '<a href="' + link + '">Login</a>';
         }
     });
 });
