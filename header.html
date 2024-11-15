@@ -1,0 +1,32 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+
+<body>
+
+    <!-- header.html -->
+    <header id="header">
+        <nav>
+            <ul>
+                <li><a href="/users/user_creation.html">Create Users</a></li>
+                <li><a href="/character/character_creation.html">Create Characters</a></li>
+                <li><a href="/home.html">Home</a></li>
+                <!-- Si no hay un usuario autenticado, mostramos el link de login -->
+                <li id="user-link"><a href="./login/login.html">Login</a></li> <!-- Este será dinámico -->
+            </ul>
+        </nav>
+    </header>
+
+    <!-- Este script carga login.js como módulo -->
+    <script src="carga_header.js"></script>
+
+    
+
+</body>
+
+</html>

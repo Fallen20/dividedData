@@ -1,0 +1,34 @@
+@import url("header_style.css");
+
+body{
+    margin: 0px;
+}
+div.container-fluid{
+    margin-top: 2.5rem;
+}
+div.header{
+    background-color: #4a90e2;
+    color: white;
+    margin-top: 38px;
+    height: 150px;
+}
+h1{
+    text-align: center;
+}
+.filters-container{
+    background-color: #4a90e2;
+}
+
+.filter-button{
+    cursor: pointer;
+}
+.filter-button:hover{
+    background-color: #4a90e2;
+    color: white;
+}
+
+#results{
+    max-width:80%;
+    margin: 2rem auto;
+}
+

@@ -1,0 +1,139 @@
+@import url("./../../header_style.css");
+
+/* Estilos generales */
+body {
+    font-family: 'Arial', sans-serif;
+    margin: 0;
+    padding: 0;
+    background-color: #c7dff5; /* Fondo oscuro y cómodo para la vista */
+    color: #f1f1f1; /* Texto claro pero suave */
+    line-height: 1.6;
+}
+
+/* Contenedor principal */
+.main-container {
+    max-width: 1100px;
+    margin: 20px auto;
+    background-color: #2e6499; /* Fondo oscuro para el contenedor */
+    padding: 30px;
+    border-radius: 12px;
+    box-shadow: 0 8px 20px rgba(0, 0, 0, 0.3);
+}
+
+/* Cabecera */
+.header {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    margin-bottom: 20px;
+}
+
+.header h1 {
+    font-size: 2.5rem;
+    margin-right: 20px;
+    color: #170958; /* Azul suave para el nombre */
+}
+
+#character-owner{
+    font-size: 1.1rem;
+    color: #bdc3c7;
+    font-style: italic;
+}
+.header img {
+    border-radius: 10px;
+    width: 180px;
+    height: 180px;
+    object-fit: cover;
+}
+
+/* Sección de información */
+.section {
+    margin-bottom: 25px;
+}
+
+.section h2 {
+    font-size: 1.6rem;
+    margin-bottom: 10px;
+    color: #170958; /* Título en azul suave */
+}
+
+.section p {
+    font-size: 1.1rem;
+    color: #bdc3c7; /* Texto gris suave */
+}
+
+/* Sección de movimientos */
+.moves-list {
+    list-style-type: none;
+    padding-left: 0;
+    margin-top: 10px;
+}
+
+.moves-list li {
+    font-size: 1.1rem;
+    color: #bdc3c7;
+    padding: 5px 0;
+}
+
+/* Galería de fotos */
+.gallery {
+    margin-top: 30px;
+}
+
+.gallery-images {
+    display: flex;
+    justify-content: space-between;
+    gap: 15px;
+}
+
+.gallery-images img {
+    width: 120px;
+    height: 120px;
+    border-radius: 8px;
+    object-fit: cover;
+}
+
+/* Estilo de los botones */
+.buttons {
+    display: flex;
+    justify-content: center;
+    gap: 20px;
+    margin-top: 30px;
+}
+
+button {
+    padding: 12px 20px;
+    font-size: 1rem;
+    border: none;
+    border-radius: 5px;
+    background-color: #170958;
+    color: white;
+    cursor: pointer;
+    transition: background-color 0.3s ease;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+}
+
+button:hover {
+    background-color: #2980b9; /* Azul más oscuro al pasar el mouse */
+}
+
+/* Diseño responsivo para pantallas pequeñas */
+@media (max-width: 768px) {
+    .header {
+        flex-direction: column;
+        align-items: center;
+    }
+
+    .header h1 {
+        margin-bottom: 20px;
+    }
+
+    .gallery-images {
+        flex-direction: column;
+        align-items: center;
+    }
+
+    .buttons {
+        flex-direction: column;
+    }
+}

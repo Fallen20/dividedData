@@ -1,0 +1,18 @@
+.user-list {
+    max-width:80%;
+    margin: 2rem auto;
+    font-family: Arial, sans-serif;
+}
+
+.user-list h2 {
+    font-size: 1.5rem;
+    color: #333;
+    margin: 1rem 0 0.5rem;
+}
+
+.user-list div {
+    padding-left: 1rem;
+    font-size: 1rem;
+    color: #555;
+    line-height: 1.8;
+}

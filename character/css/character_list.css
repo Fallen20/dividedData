@@ -1,0 +1,46 @@
+@import url("./../../header_style.css");
+
+/* Estilos básicos */
+body {
+    font-family: 'Ubuntu', sans-serif;
+    background-color: #F3F3F3;
+    margin: 0;
+    padding: 0;
+}
+
+#header-container {
+    background-color: #003366;
+    color: white;
+    text-align: center;
+    padding: 20px;
+    font-size: 2rem;
+}
+
+.character-container {
+    padding: 20px;
+}
+
+h2 {
+    font-size: 1.5rem;
+    color: #003366;
+    margin-bottom: 10px;
+}
+
+ul {
+    list-style-type: none;
+    padding-left: 0;
+}
+
+li {
+    background-color: #fff;
+    margin: 5px;
+    padding: 10px;
+    border-radius: 8px;
+    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+    font-size: 1.1rem;
+}
+
+li:hover {
+    background-color: #f0f0f0;
+    cursor: pointer;
+}
