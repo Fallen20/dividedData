@@ -15,14 +15,24 @@ import { onAuthStateChanged } from "https://www.gstatic.com/firebasejs/9.6.1/fir
 
 onAuthStateChanged(auth, (user) => {
     if (!user) {
-        // Obtener la ruta actual
-        const currentPath = window.location.pathname;
+        const currentUrl = window.location.href;
+        console.log('Current URL:', currentUrl);
 
-        // Excluir ciertas páginas de la verificación, si es necesario (opcional)
-        const exemptPaths = ["/home.html", "/login/login.html"];
-        if (!exemptPaths.includes(currentPath)) {
-            // Redirigir al login si no está autenticado
+        const exemptKeywords = [
+            'home.html',
+            'login/login.html',
+            'character/character_view',
+            'users/user_view'
+        ];
+
+        const isExempt = exemptKeywords.some(keyword => currentUrl.includes(keyword));
+
+        if (!isExempt) {
             window.location.href = redirection('login/login.html');
+        } else {
+            console.log('URL is exempt, no redirection.');
         }
+    } else {
+        console.log('User is authenticated:', user);
     }
 });

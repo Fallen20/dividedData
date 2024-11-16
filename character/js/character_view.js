@@ -5,6 +5,7 @@ import { onAuthStateChanged } from "https://www.gstatic.com/firebasejs/9.6.1/fir
 
 import { recoverUserWithId } from "./../../users/user_recover.js";
 import {redirection} from './../../redirect.js';
+import { getCurrentUser } from './../../login/login.js';
 
 document.addEventListener("DOMContentLoaded", () => {
     const deleteButton = document.getElementById('delete-button');
@@ -12,7 +13,7 @@ document.addEventListener("DOMContentLoaded", () => {
         console.error("Delete button not found in the DOM.");
         return;
     }
-
+    
     deleteButton.addEventListener('click', async () => {
         // Verificar el estado de autenticación
         onAuthStateChanged(auth, (user) => {
@@ -26,8 +27,6 @@ document.addEventListener("DOMContentLoaded", () => {
 
         document.getElementById('delete-button').disabled = true;
         document.getElementById('edit-button').disabled = true;
-
-
         // console.log("Borrando personaje...");
         try {
             // Recuperar los parámetros de la URL
@@ -129,5 +128,7 @@ async function loadCharacterData() {
 
 // Llamamos a la función para cargar los datos al cargar la página
 loadCharacterData();
+
+
 
 
