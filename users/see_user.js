@@ -81,4 +81,38 @@ async function fillCharacters(characters) {
         charactersContainer.appendChild(characterCard);
     });
 }
+
+
+//buscar el consent de este user
+async function searchConsent(user_name) {
+    // Convierte el username a minúsculas para la comparación insensible a mayúsculas
+    const usernameLowerCase = user_name.toLowerCase();
+
+    // Referencia a la colección 'consent'
+    const consentCollection = collection(db, 'consent');
+
+    // Crea una consulta que busque los documentos donde el username sea igual al valor ingresado
+    const q = query(consentCollection, where("username", "==", usernameLowerCase));
+
+    try {
+        const querySnapshot = await getDocs(q);
+        
+        // Si se encuentra un documento
+        if (!querySnapshot.empty) {
+            const doc = querySnapshot.docs[0]; // Tomamos el primer resultado
+            console.log(doc);
+            const docId = doc.id; // ID del documento encontrado
+            document.getElementById('consent_link').href = redirection(`consent/visualize.html?id=${docId}`);
+
+        } else {
+            document.getElementById('consent').innerHTML = "No consent found";
+        }
+    } catch (error) {
+        console.error("Error searching user: ", error);
+        alert('An error occurred while searching.');
+    }
+}
+
+
 fillCharacters(await getCharactersByOwner());
+await searchConsent(user.user_discord);

@@ -1,7 +1,59 @@
 import { getCurrentUser, logout } from './login/login.js';
 import { redirection } from './redirect.js';
 
-document.addEventListener('DOMContentLoaded', () => {
+//firebase
+import { db } from "./inicializarFB.js";
+import { collection, query, where, getDocs } from 'https://www.gstatic.com/firebasejs/10.9.0/firebase-firestore.js'
+
+document.addEventListener('DOMContentLoaded', function () {
+    //buscar user consent
+
+    const searchUserConsent = async (username) => {
+        // Convierte el username a minúsculas para la comparación insensible a mayúsculas
+        const usernameLowerCase = username.toLowerCase();
+
+        // Referencia a la colección 'consent'
+        const consentCollection = collection(db, 'consent');
+
+        // Crea una consulta que busque los documentos donde el username sea igual al valor ingresado
+        const q = query(consentCollection, where("username", "==", usernameLowerCase));
+
+        try {
+            const querySnapshot = await getDocs(q);
+
+            // Si se encuentra un documento
+            if (!querySnapshot.empty) {
+                const doc = querySnapshot.docs[0]; // Tomamos el primer resultado
+                const docId = doc.id; // ID del documento encontrado
+                // Redirigir a la página visualize con el id como parámetro en la URL
+                window.location.href = redirection(`consent/visualize.html?id=${docId}`);
+            } else {
+                alert('No user found with that username!');
+            }
+        } catch (error) {
+            console.error("Error searching user: ", error);
+            alert('An error occurred while searching.');
+        }
+    };
+
+    const intervalId = setInterval(function () {
+        const searchInput = document.getElementById("search-user-consent");
+
+        if (searchInput) {
+            searchInput.addEventListener("keypress", function (event) {
+                if (event.key === "Enter") {
+                    const username = event.target.value.trim(); // Obtener el valor del input
+                    if (username) {
+                        searchUserConsent(username);
+                    }
+                }
+            });
+
+            clearInterval(intervalId); // Detener la comprobación cuando lo encontramos
+        }
+    }, 100); // Comprobar cada 100 milisegundos
+
+    console.log("Cargando header...");
     fetch(redirection('header.html'))
         .then(response => {
             if (!response.ok) {
@@ -50,5 +102,11 @@ document.addEventListener('DOMContentLoaded', () => {
             userLink.innerHTML = '<a href="' + link + '">Login</a>';
         }
     });
+
+
+
+
+
+
 
 });

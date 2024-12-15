@@ -7,10 +7,10 @@
     background-color: #333; /* Fondo oscuro para el header */
     color: white;
     padding: 10px 0;
-    z-index: 1000; /* Asegura que el header esté sobre otros elementos */
+    z-index: 1000;
 }
 
-#header-container nav ul {
+#header-container>div>ul {
     list-style: none;
     margin: 0;
     padding: 0;
@@ -18,11 +18,11 @@
     justify-content: center;
 }
 
-#header-container nav ul li {
+#header-container div ul li {
     margin: 0 15px;
 }
 
-#header-container nav ul li a {
+#header-container div ul li a {
     color: white;
     text-decoration: none;
     font-weight: bold;
@@ -32,3 +32,19 @@
 #header-container nav ul li a:hover {
     text-decoration: underline;
 }
+
+.dropdown-menu,  .dropdown-item:focus, .dropdown-item:hover{
+    background-color: #333 !important;
+    color: white !important;
+}
+
+.dropdown-boton{
+    background-color: #333 !important;
+    color: white;
+    text-decoration: none;
+    font-weight: bold;
+    font-size: 16px;
+    border: 0 !important;
+    padding: 0 !important;
+}
+
