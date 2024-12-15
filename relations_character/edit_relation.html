@@ -14,6 +14,7 @@
         crossorigin="anonymous"></script>
 
     <script type="module" src="./../carga_header.js"></script>
+    <script type="module" src="js/edit.js"></script>
     <link rel="stylesheet" href="css/styles.css">
 
 
@@ -22,7 +23,30 @@
 <body>
 
     <div id="header-container"></div>
-    <div class="main-container mt-5"></div>
+    <div class="main-container mt-5">
+        <div class="h1 text-center">Edit a relationship</div>
+
+        <div class="container">
+
+            <div class="d-flex row">
+                <div class="col-3">
+                    <img src="https://f2.toyhou.se/file/f2-toyhou-se/images/86355128_RwkZ5uwi4Ta1NDG.png" alt=""
+                        style="width: 200px;">
+                        <div><span id="character"></span></div>
+                </div>
+                <div class="col-6 d-flex flex-column">
+                    <div>How's <span style="font-style: italic;" id="character2"></span> relation?</div>
+                    <textarea id="relation" name="" cols="70" rows="7" id="" class="border p-2" style="border-radius: 20px;" placeholder="Write here"></textarea>
+                    <button id="update" class="mt-2 btn btn-primary">Edit</button>
+                </div>
+                <div class="col-3 d-flex flex-column">
+                    <img src="https://f2.toyhou.se/file/f2-toyhou-se/images/92350266_b7mRNpOsCxFaK9K.png" alt=""
+                        style="width: 200px;">
+                        <div><span id="character_2"></span></div>
+                </div>
+            </div>
+        </div>
+    </div>
 </body>
 
 </html>

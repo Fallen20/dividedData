@@ -32,7 +32,7 @@ document.addEventListener("DOMContentLoaded", () => {
         if (!querySnapshot.empty) {
             const doc = querySnapshot.docs[0];
             console.log(doc.data());
-            
+
             // Ahora hay que buscar el documento donde el id sea igual a doc.data().character_2
             const char2 = await findCharacterInCollections(doc.data().character_2);
             console.log(char2.name);
@@ -71,9 +71,16 @@ document.addEventListener("DOMContentLoaded", () => {
             textarea.innerHTML = doc.data().relation;
             textarea.style.height = '150px';
 
+            var button = document.createElement("a");
+            button.classList.add("btn", "btn-primary", "w-25", "mx-auto", "mt-3");
+            button.innerHTML = "Update Relation";
+            button.href =redirection(`relations_character/edit_relation.html?relation_id=${doc.id}`);
+            ;
+
 
             col2.appendChild(relationTitle);
             col2.appendChild(textarea);
+            col2.appendChild(button);
 
             // Crear la tercera columna (imagen y select)
             const col3 = document.createElement('div');
@@ -86,7 +93,7 @@ document.addEventListener("DOMContentLoaded", () => {
 
             const characterName2 = document.createElement('div');
             const characterSpan2 = document.createElement('span');
-            characterSpan2.innerHTML =  char2.name;
+            characterSpan2.innerHTML = char2.name;
             characterName2.appendChild(characterSpan2);
 
             col3.appendChild(img2);
@@ -124,24 +131,24 @@ document.addEventListener("DOMContentLoaded", () => {
         doc.appendChild(button);
     }
 
-// Definir las colecciones que vas a buscar
-const collections = ['neutral', 'protector', 'rebel'];
+    // Definir las colecciones que vas a buscar
+    const collections = ['neutral', 'protector', 'rebel'];
 
-// Función para buscar en las colecciones
-const findCharacterInCollections = async (characterId) => {
-    for (let collectionName of collections) {
-        const collectionRef = collection(db, collectionName); // Referencia a la colección
-        const querySnapshot = await getDocs(collectionRef); // Obtener todos los documentos de la colección
+    // Función para buscar en las colecciones
+    const findCharacterInCollections = async (characterId) => {
+        for (let collectionName of collections) {
+            const collectionRef = collection(db, collectionName); // Referencia a la colección
+            const querySnapshot = await getDocs(collectionRef); // Obtener todos los documentos de la colección
 
-        for (let doc of querySnapshot.docs) {
-            if (doc.id === characterId) { // Compara el ID del documento con character_2
-                const data = doc.data();
-                return data; // Retorna los datos del personaje
+            for (let doc of querySnapshot.docs) {
+                if (doc.id === characterId) { // Compara el ID del documento con character_2
+                    const data = doc.data();
+                    return data; // Retorna los datos del personaje
+                }
             }
         }
-    }
-    return null; // Si no se encuentra el personaje, retorna null
-};
+        return null; // Si no se encuentra el personaje, retorna null
+    };
 
 
 });
