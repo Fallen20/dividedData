@@ -93,10 +93,10 @@ async function loadCharacterData() {
             document.getElementById('extra').textContent = data.extra || 'No extra information available';
             document.getElementById('edit-button').onclick = () => {
                 window.location.href = redirection(`character/character_edit.html?affiliation=${characterAff}&id=${characterName}`);
-
-
                 // window.location.href = `./character_edit.html?affiliation=${characterAff}&id=${characterName}`;
             };
+            document.getElementById('relations').href=  redirection(`relations_character/see_relations.html?affiliation=${characterAff}&id=${characterName}`);
+
 
             // Llenar la lista de movimientos
             const movesList = document.getElementById('moves-list');
