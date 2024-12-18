@@ -47,4 +47,6 @@
     border: 0 !important;
     padding: 0 !important;
 }
-
+#search-user-consent:focus, #search-user-consent:hover{
+background-color: grey !important;
+}

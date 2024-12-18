@@ -70,6 +70,8 @@ document.addEventListener('DOMContentLoaded', function () {
 
             headerContent.querySelector('#create-users').href = redirection('users/user_creation.html');
             headerContent.querySelector('#create-chars').href = redirection('character/character_creation.html');
+            headerContent.querySelector('#create-consent').href = redirection('consent/create.html');
+            headerContent.querySelector('#delete-consent').href = redirection('consent/delete.html');
             headerContent.querySelector('#home').href = redirection('home.html');
             headerContent.querySelector('#login').href = redirection('login/login.html');
 

@@ -14,35 +14,45 @@
 
 <body>
 
-    <!-- header.html -->
     <header id="header">
-        <div style="display: flex; align-items: center; gap: 15px; justify-content: center;">
-           
-        
-            <ul style="display: flex; list-style-type: none; padding: 0; margin: 0;">
-                <li style="margin-right: 15px;"><a id="home" href="/home.html">Home</a></li>
-                <li style="margin-right: 15px;"><a id="create-users" href="/users/user_creation.html">Create Users</a></li>
-                <li style="margin-right: 15px;"><a id="create-chars" href="/character/character_creation.html">Create Characters</a></li>
-                <div class="dropdown ">
-                    <button class="dropdown-toggle dropdown-boton" data-bs-toggle="dropdown" aria-expanded="false" style="background-color: #333;">
-                       Consent
-                    </button>
-                    <ul class="dropdown-menu">
-                        <li><a class="dropdown-item" id="create-consent" href="/consent/create.html">Consent</a></li>
-                        <li><input id="search-user-consent" class="form-control" type="text" placeholder="Search user consent"></li>
-                        <li><a class="dropdown-item" id="delete-consent" href="/consent/delete.html">Delete consent</a></li>
+        <nav class="navbar navbar-expand-lg">
+            <div class="container-fluid m-0">
+                <button style="background-color: grey; color: white;" class="navbar-toggler mx-auto" type="button" data-bs-toggle="collapse" data-bs-target="#navbarContent" aria-controls="navbarContent" aria-expanded="false" aria-label="Toggle navigation">
+                    <span class="navbar-toggler-icon"></span>
+                </button>
+                <div class="collapse navbar-collapse justify-content-center" id="navbarContent">
+                    <ul class="navbar-nav mb-2 mb-lg-0">
+                        <li class="nav-item">
+                            <a class="nav-link text-white" id="home" href="/home.html">Home</a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link text-white" id="create-users" href="/users/user_creation.html">Create Users</a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link text-white" id="create-chars" href="/character/character_creation.html">Create Characters</a>
+                        </li>
+                        <li class="nav-item dropdown">
+                            <a class="nav-link dropdown-toggle text-white" href="#" id="consentDropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false">
+                                Consent
+                            </a>
+                            <ul class="dropdown-menu" aria-labelledby="consentDropdown">
+                                <li><a class="dropdown-item" id="create-consent" href="/consent/create.html">Create Consent</a></li>
+                                <li>
+                                    <input id="search-user-consent" class="form-control dropdown-item" style="color:white; background-color: grey; border: 1px solid white; border-radius: 10px;" type="text" placeholder="Search user consent">
+                                </li>
+                                <li><a class="dropdown-item" id="delete-consent" href="/consent/delete.html">Delete Consent</a></li>
+                            </ul>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link text-white" id="login" href="./login/login.html">Login</a>
+                        </li>
                     </ul>
                 </div>
-                <!-- Si no hay un usuario autenticado, mostramos el link de login -->
-                <li id="login"><a href="./login/login.html">Login</a></li>
-            </ul>
-        </div>
-        
-        
-
-
-
+            </div>
+        </nav>
     </header>
+    
+    
 
     <!-- Este script carga login.js como módulo -->
     <script type="module" src="carga_header.js"></script>
