@@ -1,5 +1,6 @@
 import { addDoc, collection, query, where, getDocs, getDoc, doc, updateDoc, deleteDoc } from 'https://www.gstatic.com/firebasejs/10.9.0/firebase-firestore.js'
 import { db } from "../../inicializarFB.js";
+import { redirection } from './../../redirect.js';
 
 document.addEventListener("DOMContentLoaded", () => {
     //recuperar todas los docs de la coleccion 'consent'
@@ -7,14 +8,16 @@ document.addEventListener("DOMContentLoaded", () => {
     getDocs(collectionRef).then((querySnapshot) => {
         querySnapshot.forEach((doc) => {
             const data = doc.data();
+            
             //crear un div
             const div = document.createElement("div");
 
             //estilo
             div.classList.add('d-flex', 'justify-content-center', 'align-items-center', 'mb-2');
             //otro div
-            const div2 = document.createElement("div");
+            const div2 = document.createElement("a");
             div2.textContent = data.username;
+            div2.href = redirection(`consent/visualize.html?id=${doc.id}`);
             div2.style.width = '400px';
             div2.classList.add('py-2', 'fw-bold');
             //un boton

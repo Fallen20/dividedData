@@ -24,7 +24,8 @@ document.addEventListener("DOMContentLoaded", () => {
             const docRef = await addDoc(collectionRef, characterData);
 
             console.log("Usuario guardado con éxito con ID:", docRef.id);
-            alert("Usuario guardado con éxito!");
+            window.location.href = redirection(`users/user_view.html?id=${docRef.id}`);
+            // alert("Usuario guardado con éxito!");
         } catch (error) {
             console.error("Error al guardar el usuario:", error);
         }

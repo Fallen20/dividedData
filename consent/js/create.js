@@ -1,6 +1,6 @@
 import { addDoc, collection, query, where, getDocs, getDoc, doc, updateDoc, deleteDoc } from 'https://www.gstatic.com/firebasejs/10.9.0/firebase-firestore.js'
 import { db } from "../../inicializarFB.js";
-
+import { redirection } from './../../redirect.js';
 
 document.addEventListener("DOMContentLoaded", () => {
     const form = document.getElementById("create");
@@ -74,18 +74,28 @@ document.addEventListener("DOMContentLoaded", () => {
         //miramos si hay el usuario ya ha metido la info
         const querySnapshot = await getDocs(nameQuery);
 
+        var idDocumento = null
         //si ya existe hay que actualizar, si no existe hay que crear
         if (!querySnapshot.empty) {
             //recuperamos el doc
             const docRef = doc(db, "consent", querySnapshot.docs[0].id);
             //lo actualizamos
             await updateDoc(docRef, consentData);
-            alert("Consent updated successfully!");
+
+            //recuperamos el id del doc updateado
+            idDocumento = querySnapshot.docs[0].id;
+
+
         } else {
             //lo creamos
-            await addDoc(collectionRef, consentData);
-            alert("Consent created successfully!");
+            const newDocRef = await addDoc(collectionRef, consentData);
+            idDocumento = newDocRef.id;
+
         }
+
+
+        window.location.href = redirection(`consent/visualize.html?id=${idDocumento}`); // Cambia la ruta según sea necesario
+
 
     });
 
