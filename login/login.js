@@ -1,5 +1,6 @@
 // Importar los módulos de Firebase necesarios
 import { app, db, auth } from "./../inicializarFB.js";
+import { appImg, dbImg, authImg } from "./../inicializarFB.js";
 import {
     signInWithEmailAndPassword,
     setPersistence,
@@ -7,7 +8,7 @@ import {
     onAuthStateChanged,
     signOut
 } from "https://www.gstatic.com/firebasejs/9.6.1/firebase-auth.js";
-import {redirection} from './../redirect.js';
+import { redirection } from './../redirect.js';
 
 // Configurar persistencia para mantener al usuario autenticado
 setPersistence(auth, browserLocalPersistence)
@@ -32,9 +33,17 @@ async function logIn(email, password) {
     try {
         const userCredential = await signInWithEmailAndPassword(auth, email, password);
         const user = userCredential.user;
-        // console.log("Usuario autenticado:", user);
+        console.log("Usuario autenticado:", user);
+
+        //si es el admin, hacer login en el firebase2 con las mismas credenciales
+        if (user.uid == 'EQOEICzeFeRqiTafa4C2JtQals92') {
+            await signInWithEmailAndPassword(authImg, email, password);
+            window.location.href = redirection(`character/character_creation.html`);
+        }
+        else {
+            window.location.href = redirection(`character/character_creation.html`);
+        }
         // Redirigir a crear.html después del login exitoso
-        window.location.href = redirection(`character/character_creation.html`);      
 
         // window.location.href = "./../character/character_creation.html";
     } catch (error) {
@@ -44,12 +53,19 @@ async function logIn(email, password) {
 
 // Función para cerrar sesión
 export function logout() {
-    return signOut(auth)
+    signOut(auth)
+        .then(() => {
+            console.log("Usuario ha cerrado sesión");
+            // window.location.href = "login.html";
+        })
+        .catch((error) => {
+            console.error("Error al cerrar sesión:", error);
+        });
+
+        signOut(authImg)
         .then(() => {
             console.log("Usuario ha cerrado sesión");
             window.location.href = redirection('login/login.html');
-
-
             // window.location.href = "login.html";
         })
         .catch((error) => {

@@ -19,6 +19,7 @@
 </head>
 
 <body>
+    <script type="module" src="js/character_view.js"></script>
 
     <div id="header-container"></div>
     <div style="height: 50px;"></div>
@@ -26,36 +27,41 @@
     <div class="main-container mt-5">
         <!-- Cabecera con nombre e imagen -->
         <div class="header d-flex align-items-center flex-column">
-            <img id="character-image" src="https://via.placeholder.com/180" alt="Imagen de Pokémon">
-            <h1 id="character-name" class="mt-2">Macaw</h1>
-            <h1 id="character-owner" class="mt-1">owener</h1>
+            <div>
+                <a id="character-image" href="https://tu-enlace-destino.com">
+                    <img src="https://via.placeholder.com/180" id="imagen-pokemon" alt="Imagen clicable" style="width: 180px; height: auto;">
+                </a>
+            </div>
+            
+            <h1 id="character-name" class="mt-2"></h1>
+            <h1 id="character-owner" class="mt-1">Owned by </h1>
 
         </div>
 
         <!-- Información básica -->
         <div class="section">
             <h2>Basic info</h2>
-            <p><strong>Affiliation:</strong> <span id="affiliation">Neutral</span></p>
-            <p><strong>Age:</strong> <span id="age">5545 años</span></p>
-            <p><strong>Gender:</strong> <span id="gender">Sí</span></p>
+            <p><strong>Affiliation:</strong> <span id="affiliation"></span></p>
+            <p><strong>Age:</strong> <span id="age"></span></p>
+            <p><strong>Gender:</strong> <span id="gender"></span></p>
         </div>
 
         <!-- Descripción -->
         <div class="section">
             <h2>Description</h2>
-            <p id="description">asjkhjhsdf</p>
+            <p id="description"></p>
         </div>
 
         <!-- Historia -->
         <div class="section">
             <h2>Story</h2>
-            <p id="story">sdjfhjdsf</p>
+            <p id="story"></p>
         </div>
 
         <!-- Personalidad -->
         <div class="section">
             <h2>Personality</h2>
-            <p id="personality">sdkkdf</p>
+            <p id="personality"></p>
         </div>
 
         <!-- Movimientos -->
@@ -69,26 +75,42 @@
         <!-- Características Especiales -->
         <div class="section">
             <h2>Special traits</h2>
-            <p id="special-traits">sdkdf</p>
+            <p id="special-traits"></p>
         </div>
 
         <div class="section">
             <h2>Extra</h2>
-            <p id="extra">sdkdf</p>
+            <p id="extra"></p>
         </div>
 
 
         <!-- Galería de fotos -->
         <div class="section gallery">
-            <h2>Galery</h2>
-            <div id="gallery-images" class="gallery-images">
-                <!-- Se llenarán dinámicamente -->
+            <h2>Gallery</h2>
+            <div class="gallery-container align-items-center">
+                <button id="prev-button" class="nav-button">&lt;</button>
+                <div id="gallery-images" class="gallery-images">
+                    <div id="load" class="px-2">Loading...</div>
+                    <!-- Las imágenes se llenarán dinámicamente -->
+                </div>
+                <button id="next-button" class="nav-button">&gt;</button>
+            </div>
+        
+            <!-- Sección para añadir nuevas imágenes -->
+            <div class="d-flex flex-column  w-25 mx-auto mt-5">
+                <input type="file" id="file-input" multiple>
+                <button id="file" style="padding:10px;" class="mt-2">Add Images</button>
             </div>
         </div>
 
         <div class="section relations">
             <h2>Relationships</h2>
             <a href="" id="relations">Click to see all</a>
+        </div>
+
+        <div class="section stories">
+            <h2>Stories/roleplay</h2>
+            <a href="" id="stories">Click to see all</a>
         </div>
 
         <!-- Botones de acción -->
@@ -98,7 +120,15 @@
         </div>
     </div>
 
-    <script type="module" src="js/character_view.js"></script>
+    <!-- Modal for viewing image -->
+<div id="image-modal" class="modal w-50">
+    <div class="modal-content p-3">
+        <img id="modal-image" src="" alt="Image in Modal" width="400">
+        <button class="close">Close image</button>
+    </div>
+</div>
+
+
 </body>
 
 </html>

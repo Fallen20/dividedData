@@ -27,13 +27,15 @@ body {
 .header h1 {
     font-size: 2.5rem;
     margin-right: 20px;
-    color: #170958; /* Azul suave para el nombre */
+    color: #170958;
+    /* Azul suave para el nombre */
 }
 
-#character-owner{
+#character-owner {
     font-size: 1.1rem;
     font-style: italic;
 }
+
 .header img {
     border-radius: 10px;
     width: 180px;
@@ -49,7 +51,8 @@ body {
 .section h2 {
     font-size: 1.6rem;
     margin-bottom: 10px;
-    color: #170958; /* Título en azul suave */
+    color: #170958;
+    /* Título en azul suave */
 }
 
 .section p {
@@ -107,7 +110,8 @@ button {
 }
 
 button:hover {
-    background-color: #2980b9; /* Azul más oscuro al pasar el mouse */
+    background-color: #2980b9;
+    /* Azul más oscuro al pasar el mouse */
 }
 
 /* Diseño responsivo para pantallas pequeñas */
@@ -129,4 +133,186 @@ button:hover {
     .buttons {
         flex-direction: column;
     }
+}
+
+/* --------------------------------------------------- */
+/* GALERIA */
+/* --------------------------------------------------- */
+
+
+/* ---------------- */
+/* carrusel */
+/* ---------------- */
+
+/* Aseguramos que la galería ocupe todo el ancho disponible */
+.gallery-container {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    width: 100%;
+    position: relative;
+    /* Para posicionar los botones en los extremos */
+}
+
+/* Contenedor de imágenes */
+#gallery-images {
+    display: flex;
+    flex-wrap: nowrap;
+    /* Para que las imágenes no se ajusten a una nueva línea */
+    justify-content: center;
+    /* Centra las imágenes horizontalmente */
+    overflow: hidden;
+    /* Oculta las imágenes que quedan fuera del área visible */
+    width: 100%;
+}
+
+/* botones */
+.nav-button {
+    background-color: #007bff;
+    color: white;
+    padding: 10px;
+    border: none;
+    cursor: pointer;
+    z-index: 1;
+    /* Para asegurarse de que los botones estén por encima del contenido */
+}
+
+/* ---------------- */
+/* LOADING MIENTRAS CARGA */
+/* ---------------- */
+
+#load {
+    text-align: center;
+    width: 100%;
+    display: block;
+}
+
+/* animacion loading, parpadea blanco y negro*/
+@keyframes blink {
+    0% {
+        color: white;
+    }
+    50% {
+        color: black;
+    }
+    100% {
+        color: white;
+    }
+}
+
+#load {
+    animation: blink 1s infinite;
+}
+ /* ---------------- */
+/* IMGCARRUSEL */
+/* ---------------- */
+
+/* Contenedor de la imagen */
+.gallery-item {
+    position: relative; /* Para que los botones se posicionen sobre la imagen */
+    display: inline-block;
+    width: calc(25% - 10px);  /* Ajustar para que quepan 4 imágenes */
+    margin: 0 5px; /* Añadir un pequeño margen entre las imágenes */
+    box-sizing: border-box; /* Asegura que el padding y el margen se incluyan en el cálculo de los tamaños */
+}
+
+/* Estilo de la imagen */
+.gallery-item img {
+    width: 100%; /* Hace que la imagen ocupe el 100% del contenedor */
+    height: auto; /* Mantiene la proporción de la imagen */
+    display: block;
+    border-radius: 8px;
+    object-fit: cover; /* Hace que la imagen cubra el contenedor sin deformarse */
+}
+
+
+
+/* ---------------- */
+/* OVERLAY DE LA IMG CON LOS BOTONES VER/DELETE */
+/* ---------------- */
+/* Contenedor con los botones y fondo oscuro */
+.overlay {
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background-color: rgba(0, 0, 0, 0.5); /* Fondo oscuro con opacidad */
+    opacity: 0;
+    visibility: hidden; /* Se oculta por defecto */
+    transition: opacity 0.3s ease, visibility 0.3s ease; /* Transición suave */
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    border-radius: 8px; /* O cualquier border-radius que quieras */
+}
+
+/* Mostrar los botones al pasar el ratón por encima de la imagen */
+.gallery-item:hover .overlay {
+    opacity: 1;
+    visibility: visible; /* Hacer visible el overlay */
+}
+
+/* Estilo de los botones */
+.overlay button {
+    background-color: rgba(255, 255, 255, 0.7);
+    color: black;
+    border: none;
+    padding: 10px;
+    margin: 5px;
+    cursor: pointer;
+    font-size: 14px;
+    border-radius: 5px;
+    transition: background-color 0.3s ease;
+}
+
+.overlay button:hover {
+    background-color: rgba(255, 255, 255, 1);
+}
+
+
+
+/* ---------------- */
+/* MODAL */
+/* ---------------- */
+
+.modal {
+    position: fixed;  /* Fija el modal a la pantalla */
+    top: 50%;  /* Lo coloca en el centro vertical */
+    left: 50%;  /* Lo coloca en el centro horizontal */
+    transform: translate(-50%, -50%);  /* Ajusta la posición para centrarlo correctamente */
+    border: 1px solid lightgrey;
+    border-radius: 10px;
+    display: none;  /* Se oculta por defecto */
+    z-index: 1000;  /* Asegura que el modal esté por encima de otros elementos */
+    width: 60%;  /* Ajusta el tamaño del modal */
+    max-width: 600px;  /* Limita el tamaño máximo */
+    height: auto;  /* Ajusta el tamaño según el contenido */
+    text-align: center;  /* Centra el contenido dentro del modal */
+}
+
+/* Estilo del contenido del modal */
+.modal-content {
+    position: relative;  /* Necesario para el botón de cerrar */
+    padding: 20px;
+    background-color: #fff;
+    border-radius: 10px;  /* Bordes redondeados */
+    text-align: center;  /* Centra el contenido */
+    display: flex;
+    justify-content: center;  /* Centra los elementos horizontalmente */
+    align-items: center;  /* Centra los elementos verticalmente */
+}
+
+/* Estilo de la imagen dentro del modal */
+#modal-image {
+    max-width: 100%;  /* Asegura que la imagen no sobresalga del contenedor */
+    max-height: 500px;  /* Limita la altura máxima */
+    margin-bottom: 20px;  /* Espacio entre la imagen y el botón */
+}
+
+.close{
+    cursor: pointer;
+    width: 50%;
+    display: block;
+    margin: 0 auto;
 }

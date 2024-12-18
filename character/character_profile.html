@@ -13,8 +13,8 @@
         integrity="sha384-YvpcrYf0tY3lHB60NNkmXc5s9fDVZLESaAA55NDzOxhy9GkcIdslK1eN7N6jIeHz"
         crossorigin="anonymous"></script>
 
-    <link rel="stylesheet" href="css/styles.css">
-    <script type="module" src="js/recover.js"></script>
+    <link rel="stylesheet" href="css/creation.css">
+    <script type="module" src="js/upload_icon.js"></script>
 
     <script type="module" src="./../carga_header.js"></script>
 
@@ -25,12 +25,16 @@
     <div id="header-container"></div>
     <div style="height: 50px;"></div>
 
-    <div class="main-container mt-5">
-        <div class="h1 text-center border-bottom pb-3">Relationships of <span id="character" style="font-style: italic;"></span></div>
-        <div id="relations" class="mx-auto text-center container">
-            
+    <div class="container">
+        <div class="h3 text-center">Old icon</div>
+        <div class="row justify-content-center">
+            <img src="https://f2.toyhou.se/file/f2-toyhou-se/images/86355128_RwkZ5uwi4Ta1NDG.png" id="old-icon"  class="img-fluid" style="width: 300px;">
         </div>
+        <div class="h3 text-center mt-3">Upload new icon</div>
+        <input type="file" name="icon" id="icon_file">
+        <button id="upload">Upload</button>
     </div>
+
 </body>
 
 </html>
