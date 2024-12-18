@@ -49,6 +49,7 @@ document.addEventListener("DOMContentLoaded", () => {
             img1.src = "https://f2.toyhou.se/file/f2-toyhou-se/images/86355128_RwkZ5uwi4Ta1NDG.png";
             img1.alt = "";
             img1.style.width = '200px';
+            img1.classList.add('img-fluid');
 
             const characterName1 = document.createElement('div');
             const characterSpan = document.createElement('span');
@@ -72,10 +73,9 @@ document.addEventListener("DOMContentLoaded", () => {
             textarea.style.height = '150px';
 
             var button = document.createElement("a");
-            button.classList.add("btn", "btn-primary", "w-25", "mx-auto", "mt-3");
+            button.classList.add("btn", "btn-primary", "w-50", "mx-auto", "mt-3");
             button.innerHTML = "Update Relation";
             button.href =redirection(`relations_character/edit_relation.html?relation_id=${doc.id}`);
-            ;
 
 
             col2.appendChild(relationTitle);
@@ -90,11 +90,14 @@ document.addEventListener("DOMContentLoaded", () => {
             img2.src = "https://f2.toyhou.se/file/f2-toyhou-se/images/92350266_b7mRNpOsCxFaK9K.png";
             img2.alt = "";
             img2.style.width = '200px';
+            img2.classList.add('img-fluid');
+
 
             const characterName2 = document.createElement('div');
             const characterSpan2 = document.createElement('span');
             characterSpan2.innerHTML = char2.name;
             characterName2.appendChild(characterSpan2);
+            
 
             col3.appendChild(img2);
             col3.appendChild(characterName2);
