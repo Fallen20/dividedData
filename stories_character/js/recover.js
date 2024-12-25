@@ -19,7 +19,7 @@ document.addEventListener("DOMContentLoaded", async () => {
             const character = docSnap.data();
             document.getElementById("character").innerHTML = character.name;
         }
-        
+
     }
     async function recoverStories() {
         // Recuperar la URL
@@ -67,6 +67,17 @@ document.addEventListener("DOMContentLoaded", async () => {
                 const footer = document.createElement("div");
                 footer.classList.add("card-footer");
 
+
+                const editButton = document.createElement("button");
+                editButton.classList.add("btn", "btn-primary", 'me-2');
+                editButton.textContent = "Edit";
+                hideElement(footer);
+                editButton.addEventListener("click", () => {
+                    
+                    console.log(doc.id);
+                    window.location.href = redirection(`stories_character/story_edit.html?affiliation=${affiliation}&character=${characterId}&id=${doc.id}`);
+                });
+
                 const deleteButton = document.createElement("button");
                 deleteButton.classList.add("btn", "btn-danger");
                 deleteButton.textContent = "Delete";
@@ -81,6 +92,7 @@ document.addEventListener("DOMContentLoaded", async () => {
                 // Añadir elementos al DOM
                 header.appendChild(title);
                 body.appendChild(text);
+                footer.appendChild(editButton);
                 footer.appendChild(deleteButton);
 
                 storyElement.appendChild(header);
