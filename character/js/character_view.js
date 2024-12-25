@@ -85,7 +85,19 @@ async function loadCharacterData() {
             document.getElementById('character-name').textContent = data.name || 'Unknown Name';
 
             let linkUser = document.createElement('a');
-            linkUser.href = redirection(`users/user_view.html?id=${data.owner}`);
+            
+            //buscar el usuario donde el campo ID del documento sea igual al ID dado
+            const q = query(collection(db, 'users'), where('id', '==', data.owner));
+
+
+            // Ejecutar la consulta
+            const querySnapshot = await getDocs(q);
+
+            const userDoc = querySnapshot.docs[0];  // Primer documento
+            const documentId = userDoc.id;  // ID del documento en Firestore
+
+            linkUser.href = redirection(`users/user_view.html?id=${documentId}`);
+
             linkUser.textContent = user.username || 'Unknown owner';
             document.getElementById('character-owner').appendChild(linkUser);
 

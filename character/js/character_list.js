@@ -51,7 +51,7 @@
 import { db } from '../../inicializarFB.js'; // Asegúrate de tener la configuración inicializada en 'inicializarFB.js'
 import { collection, getDocs, query, orderBy } from 'https://www.gstatic.com/firebasejs/10.9.0/firebase-firestore.js';
 
-import {redirection} from './../../redirect.js';
+import { redirection } from './../../redirect.js';
 
 
 document.getElementById('filter-affiliation').addEventListener('click', () => {
@@ -149,48 +149,56 @@ async function displayCharacters() {
 }
 
 async function fetchAndRenderCharacters() {
-    document.getElementById('results').innerHTML = '';  // Limpiar los resultados previos
+    document.getElementById('results').innerHTML = 'Loading...';  // Limpiar los resultados previos
 
     const collections = ['neutral', 'protector', 'rebel'];  // Las colecciones de personajes
     const characters = {};  // Objeto para almacenar los personajes agrupados por inicial
-
+    let empty = [];
     try {
         // Recorremos las colecciones
         for (const collectionName of collections) {
             const charactersRef = collection(db, collectionName);
             const q = query(charactersRef, orderBy("name"));  // Ordenar por 'name' (campo que deseas)
             const querySnapshot = await getDocs(q);
+            console.log(querySnapshot);
 
-
-            if(querySnapshot.empty){
-             document.getElementById('results').innerHTML = 'No characters found in this collection.';
-                return null;
+            if (querySnapshot.empty) {
+                empty.push(false);
             }
+            else {
+                // Agrupar los personajes por inicial
+                querySnapshot.forEach(doc => {
+                    const data = doc.data();
+                    const initial = data.name[0].toUpperCase();  // Usamos la primera letra del nombre
 
-            // Agrupar los personajes por inicial
-            querySnapshot.forEach(doc => {
-                const data = doc.data();
-                const initial = data.name[0].toUpperCase();  // Usamos la primera letra del nombre
+                    console.log('initial', data);
 
-                // Si no existe la clave inicial, la creamos
-                if (!characters[initial]) {
-                    characters[initial] = [];
-                }
 
-                // console.log("Personaje recuperado:", data, "ID del documento:", doc.id);
+                    // Si no existe la clave inicial, la creamos
+                    if (!characters[initial]) {
+                        characters[initial] = [];
+                    }
 
-                characters[initial].push({
-                    id: doc.id,
-                    name: data.name,
-                    pokemonName: data.pokemonName,
-                    affiliation: data.affiliation,
-                    age: data.age,
-                    gender: data.gender
+                    // console.log("Personaje recuperado:", data, "ID del documento:", doc.id);
+
+                    characters[initial].push({
+                        id: doc.id,
+                        name: data.name,
+                        pokemonName: data.pokemonName,
+                        affiliation: data.affiliation,
+                        age: data.age,
+                        gender: data.gender
+                    });
                 });
-            });
-
+            }
         }
 
+        if (empty[0] == false && empty[1] == false && empty[2] == false) {
+            document.getElementById('results').innerHTML = 'No characters found in this collection.';
+        }
+
+
+        document.getElementById('results').innerHTML = '<h2>Character ordered by letter</h2>';
         renderCharacters(characters);  // Renderizamos los personajes
     } catch (error) {
         console.error("Error recuperando personajes:", error);

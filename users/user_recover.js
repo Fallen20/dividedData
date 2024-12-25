@@ -49,7 +49,7 @@ async function fetchAndRenderUsers() {
         return;
     }  // Si no hay usuarios, no renderizamos nada
 
-    document.getElementById('results').innerHTML = ''; // Limpiar los resultados antes de cargar nuevos datos
+    document.getElementById('results').innerHTML = '<h2>Users ordered by letter</h2>';
 
     const container = document.createElement("div");
     container.classList.add("user-list");

@@ -4,29 +4,49 @@ import { recoverUserWithId } from "./user_recover.js";
 import { db } from "./../inicializarFB.js"; // Asegúrate de importar correctamente tu inicialización de Firebase
 import { redirection } from './../redirect.js';
 
-//recuperar param id
-const urlParams = new URLSearchParams(window.location.search);
-const id = urlParams.get('id');
 
-const user = await recoverUserWithId(id);
+document.addEventListener('DOMContentLoaded', async () => {
+    await fillUser();
+    await fillCharacters(await getCharactersByOwner());
+    await searchConsent();
+});
 
 
-const username = document.getElementById('username');
-username.innerHTML = user.username;
+async function recoverUser(){
+    //recuperar param id
+    const urlParams = new URLSearchParams(window.location.search);
+    const id = urlParams.get('id');
+    
+    const user = await recoverUserWithId(id);
+    return user;
+}
+async function fillUser() {
+    
+    const user = await recoverUser();
 
-const userDiscord = document.getElementById('discord_name');
-userDiscord.innerHTML = user.user_discord;
+    const username = document.getElementById('username');
+    username.innerHTML = user.username;
 
-const pronouns = document.getElementById('pronouns');
-pronouns.innerHTML = user.pronouns;
+    const userDiscord = document.getElementById('discord_name');
+    userDiscord.innerHTML = user.user_discord;
 
-const timezone = document.getElementById('timezones');
-timezone.innerHTML = user.timezone;
+    const pronouns = document.getElementById('pronouns');
+    pronouns.innerHTML = user.pronouns;
+
+    const timezone = document.getElementById('timezones');
+    timezone.innerHTML = user.timezone;
+}
+
 
 // Función para recuperar los personajes cuyo owner sea el id dado
 async function getCharactersByOwner() {
     const collections = ['neutral', 'protector', 'rebel']; // Nombre de las colecciones a consultar
     let characters = [];
+
+
+    const urlParams = new URLSearchParams(window.location.search);
+    const id = urlParams.get('id');
+
 
     try {
         // Recorrer cada colección
@@ -84,9 +104,11 @@ async function fillCharacters(characters) {
 
 
 //buscar el consent de este user
-async function searchConsent(user_name) {
+async function searchConsent() {
+    const user = await recoverUser();
+
     // Convierte el username a minúsculas para la comparación insensible a mayúsculas
-    const usernameLowerCase = user_name.toLowerCase();
+    const usernameLowerCase = user.user_discord.toLowerCase();
 
     // Referencia a la colección 'consent'
     const consentCollection = collection(db, 'consent');
@@ -96,7 +118,7 @@ async function searchConsent(user_name) {
 
     try {
         const querySnapshot = await getDocs(q);
-        
+
         // Si se encuentra un documento
         if (!querySnapshot.empty) {
             const doc = querySnapshot.docs[0]; // Tomamos el primer resultado
@@ -114,5 +136,3 @@ async function searchConsent(user_name) {
 }
 
 
-fillCharacters(await getCharactersByOwner());
-await searchConsent(user.user_discord);
