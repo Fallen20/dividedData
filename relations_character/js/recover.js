@@ -2,7 +2,7 @@ import { addDoc, collection, query, where, getDocs, getDoc, doc, updateDoc, dele
 import { db } from "../../inicializarFB.js";
 import { redirection } from './../../redirect.js';
 import { getCurrentUser } from '../../login/login.js';
-
+import { hideCharacterElement, recoverProfileFromCharacterId } from './../../common.js';
 
 document.addEventListener("DOMContentLoaded", async () => {
     // Recuperar la URL
@@ -32,13 +32,11 @@ document.addEventListener("DOMContentLoaded", async () => {
     //si no tiene, sacar console-log de 'no tiene'
     getDocs(q).then(async (querySnapshot) => {
         if (!querySnapshot.empty) {
+
             const doc = querySnapshot.docs[0];
-            console.log(doc.data());
 
             // Ahora hay que buscar el documento donde el id sea igual a doc.data().character_2
             const char2 = await findCharacterInCollections(doc.data().character_2);
-            console.log(char2.name);
-
 
             const container = document.createElement('div');
             container.classList.add('d-flex', 'row');
@@ -48,9 +46,8 @@ document.addEventListener("DOMContentLoaded", async () => {
             col1.classList.add('col-3');
 
             const img1 = document.createElement('img');
-            img1.src = "https://f2.toyhou.se/file/f2-toyhou-se/images/86355128_RwkZ5uwi4Ta1NDG.png";
             img1.alt = "";
-            img1.style.width = '200px';
+            img1.style.height = '200px';
             img1.classList.add('img-fluid');
 
             const characterName1 = document.createElement('div');
@@ -79,6 +76,7 @@ document.addEventListener("DOMContentLoaded", async () => {
             button.innerHTML = "Update Relation";
             button.href = redirection(`relations_character/edit_relation.html?relation_id=${doc.id}`);
 
+            hideCharacterElement(button);
 
             col2.appendChild(relationTitle);
             col2.appendChild(textarea);
@@ -89,10 +87,16 @@ document.addEventListener("DOMContentLoaded", async () => {
             col3.classList.add('col-3');
 
             const img2 = document.createElement('img');
-            img2.src = "https://f2.toyhou.se/file/f2-toyhou-se/images/92350266_b7mRNpOsCxFaK9K.png";
             img2.alt = "";
             img2.style.width = '200px';
             img2.classList.add('img-fluid');
+
+
+            console.log('char2');
+            const a1 = await recoverProfileFromCharacterId(doc.data().character_1);
+            const a2 = await recoverProfileFromCharacterId(doc.data().character_2);
+            img2.src = a2 ? a2.base64 : 'https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcTNNLEL-qmmLeFR1nxJuepFOgPYfnwHR56vcw&s';
+            img1.src = a1 ? a1.base64 : 'https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcTNNLEL-qmmLeFR1nxJuepFOgPYfnwHR56vcw&s';
 
 
             const characterName2 = document.createElement('div');
@@ -118,10 +122,6 @@ document.addEventListener("DOMContentLoaded", async () => {
             noRelation();
         }
     });
-
-
-
-
 
 
     // Definir las colecciones que vas a buscar
@@ -159,22 +159,19 @@ async function noRelation() {
     const data = docSnap.data();
 
 
-
-
-
     var documento = document.getElementById("relations");
     documento.innerHTML = "No relations found";
     documento.classList.add("d-flex", "flex-column", "justify-content-center", "mx-auto", "text-center");
 
-    if (data.owner == userLoged.uid || userLoged.uid == 'EQOEICzeFeRqiTafa4C2JtQals92') {
+    //crear boton
+    var button = document.createElement("button");
+    button.classList.add("btn", "btn-primary", "w-25", "mx-auto", "mt-3");
+    button.textContent = "Add Relation";
+    button.addEventListener("click", () => {
+        window.location.href = redirection(`relations_character/create_relation.html?affiliation=${affiliation}&id=${characterId}`);;
+    });
+    documento.appendChild(button);
 
-        //crear boton
-        var button = document.createElement("button");
-        button.classList.add("btn", "btn-primary", "w-25", "mx-auto", "mt-3");
-        button.textContent = "Add Relation";
-        button.addEventListener("click", () => {
-            window.location.href = redirection(`relations_character/create_relation.html?affiliation=${affiliation}&id=${characterId}`);;
-        });
-        documento.appendChild(button);
-    }
+
+    hideCharacterElement(button);
 }

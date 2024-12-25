@@ -111,7 +111,7 @@ async function loadCharacterData() {
             document.getElementById('extra').textContent = data.extra || 'No extra information available';
 
             document.getElementById('relations').href = redirection(`relations_character/see_relations.html?affiliation=${characterAff}&id=${characterName}`);
-            document.getElementById('stories').href = redirection(`stories/stories_view.html?affiliation=${characterAff}&id=${characterName}`);
+            document.getElementById('stories').href = redirection(`stories_character/stories_view.html?affiliation=${characterAff}&id=${characterName}`);
 
             // Llenar la lista de movimientos
             const movesList = document.getElementById('moves-list');

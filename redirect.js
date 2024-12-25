@@ -25,7 +25,8 @@ onAuthStateChanged(auth, (user) => {
             'users/user_view',
             'consent/visualize',
             'consent/create',
-            'relations_character/see_relations'
+            'relations_character/see_relations',
+            'stories_character/stories_view'
         ];
 
         const isExempt = exemptKeywords.some(keyword => currentUrl.includes(keyword));
