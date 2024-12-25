@@ -1,7 +1,7 @@
-import { collection, query, where, getDocs, doc, getDoc} from 'https://www.gstatic.com/firebasejs/10.9.0/firebase-firestore.js';
+import { collection, query, where, getDocs, doc, getDoc } from 'https://www.gstatic.com/firebasejs/10.9.0/firebase-firestore.js';
 import { recoverUserWithId } from "./user_recover.js";
 
-import { db } from "../../inicializarFB.js"; // Asegúrate de importar correctamente tu inicialización de Firebase
+import { db, dbImg } from "../../inicializarFB.js"; // Asegúrate de importar correctamente tu inicialización de Firebase
 import { redirection } from '../../redirect.js';
 
 
@@ -52,7 +52,7 @@ async function getCharactersByOwner() {
     const userSnap = await getDoc(userRef);    // Obtener el documento
 
     const userData = userSnap.data();  // Obtener los datos
-    
+
 
     try {
         // Recorrer cada colección
@@ -87,7 +87,24 @@ async function getCharactersByOwner() {
 async function fillCharacters(characters) {
     const charactersContainer = document.getElementById('characters');
 
-    characters.forEach(character => {
+    for (const character of characters) {
+
+        //buscar si tiene img
+        const imgSearch = query(
+            collection(dbImg, 'profile'),
+            where("character_id", "==", character.id)
+        );
+        const querySnapshot = await getDocs(imgSearch);
+        let img = null;
+        if (!querySnapshot.empty) {
+            img = querySnapshot.docs[0].data();
+        }
+        else {
+            img.base64 = 'https://upload.wikimedia.org/wikipedia/commons/1/14/No_Image_Available.jpg';
+        }
+
+
+
         // Crear el contenedor de la tarjeta
         const characterCard = document.createElement('div');
         characterCard.classList.add('card', 'p-1', 'me-2', 'text-center', 'align-items-center');
@@ -95,7 +112,7 @@ async function fillCharacters(characters) {
         var link = redirection(`character/character_view.html?affiliation=${character.affiliation}&id=${character.id}`);
         characterCard.innerHTML = `
         <a href="${link}">
-    <img class="img-fluid" src="https://f2.toyhou.se/file/f2-toyhou-se/images/79782662_FN0Q9Jy8nqm6Fdg.png" alt="${character.name}" style="max-width: 100px;">
+    <img class="img-fluid" src="${img.base64}" alt="${character.name}" style="max-width: 100px;">
     </a>
     <div class="card-body">
         <h4 class="card-title">${character.name}</h4>
@@ -105,7 +122,7 @@ async function fillCharacters(characters) {
 
         // Agregar la tarjeta al contenedor
         charactersContainer.appendChild(characterCard);
-    });
+    }
 }
 
 

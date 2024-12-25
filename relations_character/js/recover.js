@@ -1,8 +1,10 @@
 import { addDoc, collection, query, where, getDocs, getDoc, doc, updateDoc, deleteDoc } from 'https://www.gstatic.com/firebasejs/10.9.0/firebase-firestore.js'
 import { db } from "../../inicializarFB.js";
 import { redirection } from './../../redirect.js';
+import { getCurrentUser } from '../../login/login.js';
 
-document.addEventListener("DOMContentLoaded", () => {
+
+document.addEventListener("DOMContentLoaded", async () => {
     // Recuperar la URL
     const urlParams = new URLSearchParams(window.location.search);
     const characterId = urlParams.get('id');
@@ -75,7 +77,7 @@ document.addEventListener("DOMContentLoaded", () => {
             var button = document.createElement("a");
             button.classList.add("btn", "btn-primary", "w-50", "mx-auto", "mt-3");
             button.innerHTML = "Update Relation";
-            button.href =redirection(`relations_character/edit_relation.html?relation_id=${doc.id}`);
+            button.href = redirection(`relations_character/edit_relation.html?relation_id=${doc.id}`);
 
 
             col2.appendChild(relationTitle);
@@ -97,7 +99,7 @@ document.addEventListener("DOMContentLoaded", () => {
             const characterSpan2 = document.createElement('span');
             characterSpan2.innerHTML = char2.name;
             characterName2.appendChild(characterSpan2);
-            
+
 
             col3.appendChild(img2);
             col3.appendChild(characterName2);
@@ -120,19 +122,7 @@ document.addEventListener("DOMContentLoaded", () => {
 
 
 
-    function noRelation() {
-        var doc = document.getElementById("relations");
-        doc.innerHTML = "No relations found";
-        doc.classList.add("d-flex", "flex-column", "justify-content-center", "mx-auto", "text-center");
-        //crear boton
-        var button = document.createElement("button");
-        button.classList.add("btn", "btn-primary", "w-25", "mx-auto", "mt-3");
-        button.textContent = "Add Relation";
-        button.addEventListener("click", () => {
-            window.location.href = redirection(`relations_character/create_relation.html?affiliation=${affiliation}&id=${characterId}`);;
-        });
-        doc.appendChild(button);
-    }
+
 
     // Definir las colecciones que vas a buscar
     const collections = ['neutral', 'protector', 'rebel'];
@@ -155,3 +145,36 @@ document.addEventListener("DOMContentLoaded", () => {
 
 
 });
+
+
+async function noRelation() {
+    const urlParams = new URLSearchParams(window.location.search);
+    const characterId = urlParams.get('id');
+    const affiliation = urlParams.get('affiliation');
+
+    const userLoged = await getCurrentUser();
+    const characterRef = doc(db, affiliation, characterId);
+
+    const docSnap = await getDoc(characterRef);
+    const data = docSnap.data();
+
+
+
+
+
+    var documento = document.getElementById("relations");
+    documento.innerHTML = "No relations found";
+    documento.classList.add("d-flex", "flex-column", "justify-content-center", "mx-auto", "text-center");
+
+    if (data.owner == userLoged.uid || userLoged.uid == 'EQOEICzeFeRqiTafa4C2JtQals92') {
+
+        //crear boton
+        var button = document.createElement("button");
+        button.classList.add("btn", "btn-primary", "w-25", "mx-auto", "mt-3");
+        button.textContent = "Add Relation";
+        button.addEventListener("click", () => {
+            window.location.href = redirection(`relations_character/create_relation.html?affiliation=${affiliation}&id=${characterId}`);;
+        });
+        documento.appendChild(button);
+    }
+}

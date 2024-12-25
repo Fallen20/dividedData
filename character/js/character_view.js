@@ -85,7 +85,7 @@ async function loadCharacterData() {
             document.getElementById('character-name').textContent = data.name || 'Unknown Name';
 
             let linkUser = document.createElement('a');
-            
+
             //buscar el usuario donde el campo ID del documento sea igual al ID dado
             const q = query(collection(db, 'users'), where('id', '==', data.owner));
 
@@ -275,10 +275,19 @@ async function uploadFile(file) {
 async function isUserCreator() {
     let editButton = document.getElementById('edit-button');
     let deleteButton = document.getElementById('delete-button');
+    let file = document.getElementById('file');
+    let file_input = document.getElementById('file-input');
 
 
     //recuperar el usuario
     const userLoged = await getCurrentUser();
+    if (userLoged == null) {
+        editButton.classList.add('d-none');
+        deleteButton.classList.add('d-none');
+        file.classList.add('d-none');
+        file_input.classList.add('d-none');
+        return;
+    }
 
     //recuperar el oc
     //recuperar params
@@ -292,16 +301,18 @@ async function isUserCreator() {
     }
 
     try {
+
         const characterRef = doc(db, characterAff, characterName); // Suponiendo que los personajes están en la colección 'neutral'
         const docSnap = await getDoc(characterRef);
+
+
 
         // console.log("User data:", user);
         if (docSnap.exists()) {
             const data = docSnap.data();
 
-
             // si es el mismo, sacar los botones
-            if (data.owner == userLoged.uid || data.owner == 'EQOEICzeFeRqiTafa4C2JtQals92') {
+            if ((data.owner == userLoged.uid || userLoged.uid == 'EQOEICzeFeRqiTafa4C2JtQals92') && userLoged != null) {
                 document.getElementById('edit-button').onclick = () => {
                     window.location.href = redirection(`character/character_edit.html?affiliation=${characterAff}&id=${characterName}`);
                     // window.location.href = `./character_edit.html?affiliation=${characterAff}&id=${characterName}`;
@@ -310,14 +321,6 @@ async function isUserCreator() {
 
                 deleteButton.addEventListener('click', async () => {
                     // Verificar el estado de autenticación
-                    onAuthStateChanged(auth, (user) => {
-                        if (!user) {
-                            // Redirigir al login si no está autenticado
-                            window.location.href = redirection('login/login.html');
-
-                            // window.location.href = "/login/login.html";
-                        }
-                    });
 
                     document.getElementById('delete-button').disabled = true;
                     document.getElementById('edit-button').disabled = true;
@@ -359,7 +362,11 @@ async function isUserCreator() {
                 console.log('no');
                 editButton.classList.add('d-none');
                 deleteButton.classList.add('d-none');
+                file.classList.add('d-none');
+                file_input.classList.add('d-none');
             }
+
+
 
         }
     } catch (error) {
@@ -372,7 +379,21 @@ async function isUserCreator() {
 }
 
 //CARRUSEL
-function showImage(index) {
+async function showImage(index) {
+
+    const urlParams = new URLSearchParams(window.location.search);
+    const characterName = urlParams.get('id');
+    const characterAff = urlParams.get('affiliation');
+
+
+    const userLoged = await getCurrentUser();
+
+    const characterRef = doc(db, characterAff, characterName); // Suponiendo que los personajes están en la colección 'neutral'
+    const docSnap = await getDoc(characterRef);
+
+
+
+
     const galleryContainer = document.getElementById('gallery-images');
     galleryContainer.innerHTML = ''; // Limpiar el contenedor de imágenes
 
@@ -404,7 +425,22 @@ function showImage(index) {
             const deleteButton = document.createElement('button');
             deleteButton.classList.add('delete-button');
             deleteButton.textContent = 'Delete';  // Botón "Eliminar"
-            deleteButton.onclick = () => deleteImage(i);  // Eliminar la imagen (lógica por implementar)
+
+            // console.log("User data:", user);
+            if (docSnap.exists()) {
+                const data = docSnap.data();
+                
+                if (userLoged == null) {
+                    deleteButton.classList.add('d-none');
+                }
+                else if (data.owner == userLoged.uid || userLoged.uid == 'EQOEICzeFeRqiTafa4C2JtQals92') {
+                    deleteButton.onclick = () => deleteImage(i);  // Eliminar la imagen (lógica por implementar)
+                }
+                else{
+                    deleteButton.classList.add('d-none');
+                }
+            }
+
 
             // Añadir los botones al contenedor overlay
             overlay.appendChild(seeButton);
@@ -476,6 +512,7 @@ function showModal(imageSrc) {
 
 // Función para eliminar la imagen
 async function deleteImage(index) {
+
     //recuperamos el id de la array
     const id = imagesArrayId[index];
 
