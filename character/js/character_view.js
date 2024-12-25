@@ -3,8 +3,10 @@ import { db, auth, dbImg, authImg } from '../../inicializarFB.js'; // Asegúrate
 import { doc, getDoc, deleteDoc, getDocs, query, collection, where, addDoc } from 'https://www.gstatic.com/firebasejs/10.9.0/firebase-firestore.js';
 import { onAuthStateChanged } from "https://www.gstatic.com/firebasejs/9.6.1/firebase-auth.js";
 
-import { recoverUserWithId } from "./../../users/user_recover.js";
+import { recoverUserWithId, recoverUserWithLogId } from "./../../users/user_recover.js";
 import { redirection } from './../../redirect.js';
+import { getCurrentUser } from './../../login/login.js';
+
 
 
 let imagesArray = []; // Array para almacenar las imágenes
@@ -14,11 +16,11 @@ const imagesPerPage = 4; // Número de imágenes que se mostrarán por página
 
 document.addEventListener("DOMContentLoaded", async () => {
 
-    const deleteButton = document.getElementById('delete-button');
-    if (!deleteButton) {
-        console.error("Delete button not found in the DOM.");
-        return;
-    }
+    // const deleteButton = document.getElementById('delete-button');
+    // if (!deleteButton) {
+    //     console.error("Delete button not found in the DOM.");
+    //     return;
+    // }
 
     const fileButton = document.getElementById('file');
     if (!fileButton) {
@@ -26,49 +28,7 @@ document.addEventListener("DOMContentLoaded", async () => {
         return;
     }
 
-    deleteButton.addEventListener('click', async () => {
-        // Verificar el estado de autenticación
-        onAuthStateChanged(auth, (user) => {
-            if (!user) {
-                // Redirigir al login si no está autenticado
-                window.location.href = redirection('login/login.html');
 
-                // window.location.href = "/login/login.html";
-            }
-        });
-
-        document.getElementById('delete-button').disabled = true;
-        document.getElementById('edit-button').disabled = true;
-        // console.log("Borrando personaje...");
-        try {
-            // Recuperar los parámetros de la URL
-            const urlParams = new URLSearchParams(window.location.search);
-            const characterId = urlParams.get('id');
-            const characterAffiliation = urlParams.get('affiliation');
-
-            // Verificar que se tengan ambos parámetros
-            if (!characterId || !characterAffiliation) {
-                console.error("Character ID or affiliation is missing.");
-                alert("Unable to delete: missing character information.");
-                return;
-            }
-
-            // Crear la referencia al documento específico
-            const characterRef = doc(db, characterAffiliation, characterId);
-
-
-            // Borrar el documento
-            await deleteDoc(characterRef);
-            console.log("Character deleted successfully.");
-
-            window.location.href = redirection('home.html');
-
-            // window.location.href = `/home.html`;
-        } catch (error) {
-            console.error("Error deleting character:", error);
-            alert("Failed to delete the character. Please try again.");
-        }
-    });
 
     fileButton.addEventListener('click', async (event) => {
         //recuperar file-input
@@ -94,6 +54,7 @@ document.addEventListener("DOMContentLoaded", async () => {
     await loadCharacterData();
     await recoverImage();
     await recoverGallery();
+    await isUserCreator();
 
 
 });
@@ -113,7 +74,7 @@ async function loadCharacterData() {
         const characterRef = doc(db, characterAff, characterName); // Suponiendo que los personajes están en la colección 'neutral'
         const docSnap = await getDoc(characterRef);
 
-        const user = await recoverUserWithId(docSnap.data().owner);
+        const user = await recoverUserWithLogId(docSnap.data().owner);
         // console.log("User data:", user);
         if (docSnap.exists()) {
             const data = docSnap.data();
@@ -136,12 +97,9 @@ async function loadCharacterData() {
             document.getElementById('personality').textContent = data.personality || 'No personality available';
             document.getElementById('special-traits').textContent = data.specialTraits || 'No special traits available';
             document.getElementById('extra').textContent = data.extra || 'No extra information available';
-            document.getElementById('edit-button').onclick = () => {
-                window.location.href = redirection(`character/character_edit.html?affiliation=${characterAff}&id=${characterName}`);
-                // window.location.href = `./character_edit.html?affiliation=${characterAff}&id=${characterName}`;
-            };
-            document.getElementById('relations').href = redirection(`relations_character/see_relations.html?affiliation=${characterAff}&id=${characterName}`);
 
+            document.getElementById('relations').href = redirection(`relations_character/see_relations.html?affiliation=${characterAff}&id=${characterName}`);
+            console.log(document.getElementById('relations').href);
 
             // Llenar la lista de movimientos
             const movesList = document.getElementById('moves-list');
@@ -301,6 +259,105 @@ async function uploadFile(file) {
     }
 }
 
+//si salen los botones o no
+async function isUserCreator() {
+    let editButton = document.getElementById('edit-button');
+    let deleteButton = document.getElementById('delete-button');
+
+
+    //recuperar el usuario
+    const userLoged = await getCurrentUser();
+
+    //recuperar el oc
+    //recuperar params
+    const urlParams = new URLSearchParams(window.location.search);
+    const characterName = urlParams.get('id');
+    const characterAff = urlParams.get('affiliation');
+
+    if (!characterName || !characterAff) {
+        console.error("No character name or aff provided in the URL.");
+        return;
+    }
+
+    try {
+        const characterRef = doc(db, characterAff, characterName); // Suponiendo que los personajes están en la colección 'neutral'
+        const docSnap = await getDoc(characterRef);
+
+        // console.log("User data:", user);
+        if (docSnap.exists()) {
+            const data = docSnap.data();
+
+
+            // si es el mismo, sacar los botones
+            if (data.owner == userLoged.uid || data.owner == 'EQOEICzeFeRqiTafa4C2JtQals92') {
+                document.getElementById('edit-button').onclick = () => {
+                    window.location.href = redirection(`character/character_edit.html?affiliation=${characterAff}&id=${characterName}`);
+                    // window.location.href = `./character_edit.html?affiliation=${characterAff}&id=${characterName}`;
+                };
+
+
+                deleteButton.addEventListener('click', async () => {
+                    // Verificar el estado de autenticación
+                    onAuthStateChanged(auth, (user) => {
+                        if (!user) {
+                            // Redirigir al login si no está autenticado
+                            window.location.href = redirection('login/login.html');
+
+                            // window.location.href = "/login/login.html";
+                        }
+                    });
+
+                    document.getElementById('delete-button').disabled = true;
+                    document.getElementById('edit-button').disabled = true;
+                    // console.log("Borrando personaje...");
+                    try {
+                        // Recuperar los parámetros de la URL
+                        const urlParams = new URLSearchParams(window.location.search);
+                        const characterId = urlParams.get('id');
+                        const characterAffiliation = urlParams.get('affiliation');
+
+                        // Verificar que se tengan ambos parámetros
+                        if (!characterId || !characterAffiliation) {
+                            console.error("Character ID or affiliation is missing.");
+                            alert("Unable to delete: missing character information.");
+                            return;
+                        }
+
+                        // Crear la referencia al documento específico
+                        const characterRef = doc(db, characterAffiliation, characterId);
+
+
+                        // Borrar el documento
+                        await deleteDoc(characterRef);
+                        console.log("Character deleted successfully.");
+
+                        window.location.href = redirection('home.html');
+
+                        // window.location.href = `/home.html`;
+                    } catch (error) {
+                        console.error("Error deleting character:", error);
+                        alert("Failed to delete the character. Please try again.");
+                    }
+                });
+
+
+
+            }
+            else {
+                console.log('no');
+                editButton.classList.add('d-none');
+                deleteButton.classList.add('d-none');
+            }
+
+        }
+    } catch (error) {
+        console.log('user not logged');
+        editButton.classList.add('d-none');
+        deleteButton.classList.add('d-none');
+    }
+
+
+}
 
 //CARRUSEL
 function showImage(index) {

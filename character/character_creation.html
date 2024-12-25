@@ -26,10 +26,10 @@
 
 
 
-    <div id="header-container"></div>
-    <div style="height: 50px;"></div>
+    <div id="header-container" ></div>
+    <div style="height: 120px;"></div>
 
-    <form action="" id="create" class="mt-5">
+    <div class="card p-3" style="margin-top: 100px;" id="create">
         <!-- Header y secciones -->
         <h2 class="section-header">Character Information</h2>
 
@@ -94,13 +94,13 @@
 
 
         <label for="owner">Owner</label>
-        <input type="text" name="owner" id="owner" placeholder="Enter owner's name" required>
-        <input type="text" name="owner_hidden" id="owner_hidden" placeholder="Enter owner's name" hidden>
-        <div id="autocomplete-results" class="autocomplete-results"></div>
+        <input type="text" name="owner" id="owner" placeholder="Enter owner's name" disabled style="background-color: lightgrey;">
+        <!-- <input type="text" name="owner_hidden" id="owner_hidden" placeholder="Enter owner's name" hidden> -->
+        <!-- <div id="autocomplete-results" class="autocomplete-results"></div> -->
 
         <!-- Botón de envío -->
-        <button type="submit" class="mt-5">Submit</button>
-    </form>
+        <button id="submit" type="submit" class="mt-5">Submit</button>
+    </div>
 
 
 </body>

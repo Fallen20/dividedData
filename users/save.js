@@ -1,10 +1,13 @@
 // Importar módulos necesarios de Firebase
 import { db } from "../inicializarFB.js";
 import { addDoc, collection, query, where, getDocs } from 'https://www.gstatic.com/firebasejs/10.9.0/firebase-firestore.js'
+import { redirection } from "../redirect.js";
+import { getCurrentUser } from "../login/login.js";
 
 // Continuar con el resto del código
 document.addEventListener("DOMContentLoaded", () => {
     const form = document.querySelector("form");
+
 
     form.addEventListener("submit", async (event) => {
         event.preventDefault();
@@ -30,4 +33,17 @@ document.addEventListener("DOMContentLoaded", () => {
             console.error("Error al guardar el usuario:", error);
         }
     });
+
+    isAdmin();
 });
+
+async function isAdmin() {
+    //recuperar usuario logeado
+    const userLog = await getCurrentUser();
+    if(userLog.uid!='EQOEICzeFeRqiTafa4C2JtQals92'){
+        document.getElementById('forbid').innerHTML='You are not an admin';
+        document.getElementById('createUser').style.display = 'none';
+
+    }
+
+}

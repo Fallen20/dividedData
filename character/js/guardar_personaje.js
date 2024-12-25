@@ -3,12 +3,14 @@ import { db } from "../../inicializarFB.js";
 import { addDoc, collection, query, where, getDocs, getDoc, doc, updateDoc, deleteDoc } from 'https://www.gstatic.com/firebasejs/10.9.0/firebase-firestore.js'
 
 import { recoverData } from "./pokemon_fetch.js";
-import { recoverUserWithId } from "./../../users/user_recover.js";
-import {redirection} from './../../redirect.js';
+import { recoverUserWithLogId } from "./../../users/user_recover.js";
+import { redirection } from './../../redirect.js';
+import { getCurrentUser } from './../../login/login.js';
+
 
 document.addEventListener("DOMContentLoaded", () => {
     const formUpdate = document.getElementById("update");
-    const formCreate = document.getElementById("create");
+    const formCreate = document.getElementById("submit");
 
 
 
@@ -34,7 +36,8 @@ document.addEventListener("DOMContentLoaded", () => {
                 console.error("Character ID or affiliation is missing.");
                 return;
             }
-
+            ///recuperar el usuario logeado
+            const userLog = await getCurrentUser();
             const characterData = {
                 name: document.getElementById("name").value.trim(),
                 gender: document.getElementById("gender").value.trim(),
@@ -52,7 +55,8 @@ document.addEventListener("DOMContentLoaded", () => {
                 personality: document.getElementById("personality").value.trim(),
                 story: document.getElementById("story").value.trim(),
                 extra: document.getElementById("extra").value.trim(),
-                owner: document.getElementById("owner_hidden").value.trim(),
+                creator: userLog.uid
+                // owner: userLog.uid
             };
 
             // Verificar si la afiliación ha cambiado
@@ -109,12 +113,12 @@ document.addEventListener("DOMContentLoaded", () => {
 
     // Verificar si está el formulario "create" para crear nuevo personaje
     if (formCreate) {
-        formCreate.addEventListener("submit", async (event) => {
-            event.preventDefault();
-            if (!formCreate.checkValidity()) {
-                alert("Please fill out all required fields");
-                return;
-            }
+        formCreate.addEventListener("click", async (event) => {
+            //hay que mirar que TODOS los campos estén rellenos
+            //excepto moves porque puede estar alguno vacio, MIN 1
+
+            ///recuperar el usuario logeado
+            const userLog = await getCurrentUser();
 
             const characterData = {
                 name: document.getElementById("name").value.trim(),
@@ -133,7 +137,8 @@ document.addEventListener("DOMContentLoaded", () => {
                 personality: document.getElementById("personality").value.trim(),
                 story: document.getElementById("story").value.trim(),
                 extra: document.getElementById("extra").value.trim(),
-                owner: document.getElementById("owner_hidden").value.trim(),
+                // creator: document.getElementById("owner_hidden").value.trim(),
+                owner: userLog.uid
             };
 
 
@@ -150,7 +155,7 @@ document.addEventListener("DOMContentLoaded", () => {
                 console.log("Personaje guardado con éxito en la colección:", characterData.affiliation);
 
                 // Redirigir al personaje
-                window.location.href = redirection(`character/character_view.html?affiliation=${characterData.affiliation}&id=${doc.id}`);
+                window.location.href = redirection(`character/character_view.html?affiliation=${characterData.affiliation}&id=${docRef.id}`);
 
                 // window.location.href = `/character/character_view.html?affiliation=${characterData.affiliation}&id=${docRef.id}`;
             } catch (error) {
@@ -199,7 +204,7 @@ async function fillInformationForm() {
 
     const data = await getCharacterData(); // Esperar a obtener los datos del personaje
 
-    const user = await recoverUserWithId(data.owner);
+    const user = await recoverUserWithLogId(data.owner);
     if (data) {
         // Llenar los elementos del formulario con los datos obtenidos
         document.getElementById("name").value = data.name || '';
@@ -211,6 +216,7 @@ async function fillInformationForm() {
         document.getElementById("personality").value = data.personality || '';
         document.getElementById("story").value = data.story || '';
         document.getElementById("extra").value = data.extra || '';
+
 
 
         document.getElementById("owner").value = user.username || '';

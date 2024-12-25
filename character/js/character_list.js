@@ -140,6 +140,7 @@ async function displayCharacters() {
                 const noDataMessage = document.createElement('div');
                 noDataMessage.textContent = 'No characters found in this collection.';
                 listElement.appendChild(noDataMessage);
+                console.log('no chars');
             }
         } catch (error) {
             console.error("Error getting documents: ", error);
@@ -159,6 +160,12 @@ async function fetchAndRenderCharacters() {
             const charactersRef = collection(db, collectionName);
             const q = query(charactersRef, orderBy("name"));  // Ordenar por 'name' (campo que deseas)
             const querySnapshot = await getDocs(q);
+
+
+            if(querySnapshot.empty){
+             document.getElementById('results').innerHTML = 'No characters found in this collection.';
+                return null;
+            }
 
             // Agrupar los personajes por inicial
             querySnapshot.forEach(doc => {

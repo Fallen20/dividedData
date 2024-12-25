@@ -23,7 +23,8 @@ onAuthStateChanged(auth, (user) => {
             'login/login.html',
             'character/character_view',
             'users/user_view',
-            'consent/consent_view',
+            'consent/visualize',
+            'consent/create',
             'relations_character/see_relations'
         ];
 
