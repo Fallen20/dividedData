@@ -3,7 +3,7 @@ import { db, auth, dbImg, authImg } from '../../inicializarFB.js'; // Asegúrate
 import { doc, getDoc, deleteDoc, getDocs, query, collection, where, addDoc } from 'https://www.gstatic.com/firebasejs/10.9.0/firebase-firestore.js';
 import { onAuthStateChanged } from "https://www.gstatic.com/firebasejs/9.6.1/firebase-auth.js";
 
-import { recoverUserWithId, recoverUserWithLogId } from "./../../users/user_recover.js";
+import { recoverUserWithId, recoverUserWithLogId } from "./../../users/js/user_recover.js";
 import { redirection } from './../../redirect.js';
 import { getCurrentUser } from './../../login/login.js';
 
@@ -111,7 +111,7 @@ async function loadCharacterData() {
             document.getElementById('extra').textContent = data.extra || 'No extra information available';
 
             document.getElementById('relations').href = redirection(`relations_character/see_relations.html?affiliation=${characterAff}&id=${characterName}`);
-            console.log(document.getElementById('relations').href);
+            document.getElementById('stories').href = redirection(`stories/stories_view.html?affiliation=${characterAff}&id=${characterName}`);
 
             // Llenar la lista de movimientos
             const movesList = document.getElementById('moves-list');

@@ -1,8 +1,8 @@
 // Importar módulos necesarios de Firebase
-import { db } from "../inicializarFB.js";
+import { db } from "../../inicializarFB.js";
 import { addDoc, collection, query, where, getDocs } from 'https://www.gstatic.com/firebasejs/10.9.0/firebase-firestore.js'
-import { redirection } from "../redirect.js";
-import { getCurrentUser } from "../login/login.js";
+import { redirection } from "../../redirect.js";
+import { getCurrentUser } from "../../login/login.js";
 
 // Continuar con el resto del código
 document.addEventListener("DOMContentLoaded", () => {

@@ -1,6 +1,6 @@
 import { db } from "../../inicializarFB.js";
 import { getCurrentUser } from "../../login/login.js";
-import { getAllUsers } from "./../../users/user_recover.js";
+import { getAllUsers } from "./../../users/js/user_recover.js";
 import { addDoc, collection, query, where, getDocs, getDoc, doc, updateDoc, deleteDoc } from 'https://www.gstatic.com/firebasejs/10.9.0/firebase-firestore.js'
 
 // document.addEventListener("DOMContentLoaded", () => {

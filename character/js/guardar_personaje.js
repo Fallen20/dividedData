@@ -3,7 +3,7 @@ import { db } from "../../inicializarFB.js";
 import { addDoc, collection, query, where, getDocs, getDoc, doc, updateDoc, deleteDoc } from 'https://www.gstatic.com/firebasejs/10.9.0/firebase-firestore.js'
 
 import { recoverData } from "./pokemon_fetch.js";
-import { recoverUserWithLogId } from "./../../users/user_recover.js";
+import { recoverUserWithLogId } from "./../../users/js/user_recover.js";
 import { redirection } from './../../redirect.js';
 import { getCurrentUser } from './../../login/login.js';
 

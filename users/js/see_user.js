@@ -1,8 +1,8 @@
-import { collection, query, where, getDocs } from 'https://www.gstatic.com/firebasejs/10.9.0/firebase-firestore.js';
+import { collection, query, where, getDocs, doc, getDoc} from 'https://www.gstatic.com/firebasejs/10.9.0/firebase-firestore.js';
 import { recoverUserWithId } from "./user_recover.js";
 
-import { db } from "./../inicializarFB.js"; // Asegúrate de importar correctamente tu inicialización de Firebase
-import { redirection } from './../redirect.js';
+import { db } from "../../inicializarFB.js"; // Asegúrate de importar correctamente tu inicialización de Firebase
+import { redirection } from '../../redirect.js';
 
 
 document.addEventListener('DOMContentLoaded', async () => {
@@ -12,16 +12,16 @@ document.addEventListener('DOMContentLoaded', async () => {
 });
 
 
-async function recoverUser(){
+async function recoverUser() {
     //recuperar param id
     const urlParams = new URLSearchParams(window.location.search);
     const id = urlParams.get('id');
-    
+
     const user = await recoverUserWithId(id);
     return user;
 }
 async function fillUser() {
-    
+
     const user = await recoverUser();
 
     const username = document.getElementById('username');
@@ -47,6 +47,12 @@ async function getCharactersByOwner() {
     const urlParams = new URLSearchParams(window.location.search);
     const id = urlParams.get('id');
 
+    //el id es el id del documento, hay que recuperar el interior
+    const userRef = doc(db, 'users', id);  // Referencia al documento
+    const userSnap = await getDoc(userRef);    // Obtener el documento
+
+    const userData = userSnap.data();  // Obtener los datos
+    
 
     try {
         // Recorrer cada colección
@@ -55,7 +61,7 @@ async function getCharactersByOwner() {
             const charactersRef = collection(db, collectionName);
 
             // Crear la consulta con la condición donde 'owner' sea igual a ownerId
-            const q = query(charactersRef, where("owner", "==", id));
+            const q = query(charactersRef, where("owner", "==", userData.id));
 
             // Ejecutar la consulta y obtener los documentos
             const querySnapshot = await getDocs(q);
